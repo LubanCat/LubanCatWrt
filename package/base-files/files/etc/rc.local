@@ -1,6 +1,26 @@
 # Put your custom commands here that should be executed once
 # the system init finished. By default this file does nothing.
 
+#Enable collectd_thermal
+Thermal_DIR=/root/.collectd_thermal
+mkdir -p ${Thermal_DIR}
+if [ -e ${Thermal_DIR}/init ]; then
+    logger "Already initialized collectd_thermal"
+else
+    touch ${Thermal_DIR}/init
+    logger "Init ${Thermal_DIR}"
+
+    if [ -n "`uci get luci_statistics.collectd_thermal`" ]; then
+        uci batch <<EOF
+set luci_statistics.collectd_thermal.enable='1'
+set luci_statistics.collectd_thermal.Device='thermal_zone0'
+EOF
+        uci commit
+        /etc/init.d/luci_statistics restart
+    fi
+fi
+
+
 echo 85 > /sys/class/gpio/export
 echo out > /sys/class/gpio/gpio85/direction
 echo 1 > /sys/class/gpio/gpio85/value
