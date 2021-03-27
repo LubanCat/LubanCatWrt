@@ -1,0 +1,42 @@
+#!/bin/sh
+
+logger ACTION=$ACTION DEVTYPE=$DEVTYPE PRODUCT=$PRODUCT 
+
+INIT_DIR=/root/.init
+if { [ "${DEVTYPE}" = usb_device ] || [ "${DEVTYPE}" = usb_interface ] ;} && { [ "${PRODUCT}" = "bda/c811/200" ] || [ "${PRODUCT}" = "bda/c820/200" ] ;}; then
+        MODULE=rtl8821cu
+    if [ "${ACTION}" = bind ]; then
+        mkdir -p ${INIT_DIR}
+        if [ -e ${INIT_DIR}/WLAN ]; then
+            logger "Already initialized ${MODULE}"
+            /etc/init.d/network restart
+        else
+            touch ${INIT_DIR}/WLAN
+            logger "Init ${MODULE}"
+
+            # Enable wifi and change ssid
+            if [ -n "`uci get wireless.radio0`" ]; then
+                uci batch <<EOF
+set wireless.radio0.hwmode='11g'
+set wireless.radio0.htmode='HT40'
+set wireless.radio0.channel='6'
+set wireless.radio0.country='RU'
+set wireless.radio0.disabled=0
+set wireless.radio0.noscan=1
+set wireless.default_radio0.ssid=DoorNet
+set wireless.default_radio0.encryption=psk2
+set wireless.default_radio0.key=password
+set network.lan.type='bridge'
+EOF
+            fi
+
+            uci commit 
+        fi
+        
+        # wifi reload
+        # sleep 1
+        # /etc/init.d/network restart
+    elif [ "${ACTION}" = unbind ]; then
+        logger "${MODULE}: eject"
+    fi
+fi
