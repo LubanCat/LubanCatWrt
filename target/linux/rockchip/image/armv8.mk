@@ -12,6 +12,16 @@ define Device/friendlyarm_nanopi-r2s
 endef
 TARGET_DEVICES += friendlyarm_nanopi-r2s
 
+define Device/embedfire_doornet1
+  DEVICE_VENDOR := EmbedFire
+  DEVICE_MODEL := DoorNet1
+  SOC := rk3328
+  UBOOT_DEVICE_NAME := doornet1-rk3328
+  IMAGE/sysupgrade.img.gz := boot-common | boot-script doornet1 | pine64-img | gzip | append-metadata
+  DEVICE_PACKAGES := kmod-usb-net-rtl8152
+endef
+TARGET_DEVICES += embedfire_doornet1
+
 define Device/pine64_rockpro64
   DEVICE_VENDOR := Pine64
   DEVICE_MODEL := RockPro64
