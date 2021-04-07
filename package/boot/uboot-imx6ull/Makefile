@@ -1,12 +1,9 @@
 include $(TOPDIR)/rules.mk
 
-PKG_NAME:=uboot-imx6ull
-PKG_SOURCE_DATE:=2018-09
+PKG_VERSION:=2020.10
 PKG_RELEASE:=1
 
-PKG_SOURCE_PROTO:=git
-PKG_SOURCE_URL:=https://github.com/SoMLabs/somlabs-uboot-imx.git
-PKG_SOURCE_VERSION:=dbe68c464c301ddcd83ca4c09d7bf93baf85ed5e
+PKG_HASH:=0d481bbdc05c0ee74908ec2f56a6daa53166cc6a78a0e4fac2ac5d025770a622
 
 include $(INCLUDE_DIR)/u-boot.mk
 include $(INCLUDE_DIR)/package.mk
@@ -16,11 +13,11 @@ define U-Boot/Default
   UBOOT_IMAGE:=u-boot-dtb.imx
 endef
 
-define U-Boot/somlabs_visionsom_6ull
-  NAME:=NXP ls1012afrdm 64b Dev Board
+define U-Boot/imx6ull-ebf6ull-nand
+  NAME:=EmbedFire EBF6ULL Mini NAND
 endef
 
 UBOOT_TARGETS := \
-  somlabs_visionsom_6ull
+  imx6ull-ebf6ull-nand
 
 $(eval $(call BuildPackage/U-Boot))
