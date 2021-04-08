@@ -13,11 +13,11 @@ define U-Boot/Default
   UBOOT_IMAGE:=u-boot-dtb.imx
 endef
 
-define U-Boot/imx6ull-ebf6ull-nand
+define U-Boot/imx6ull_ebf6ull_nand
   NAME:=EmbedFire EBF6ULL Mini NAND
 endef
 
 UBOOT_TARGETS := \
-  imx6ull-ebf6ull-nand
+  imx6ull_ebf6ull_nand
 
 $(eval $(call BuildPackage/U-Boot))
