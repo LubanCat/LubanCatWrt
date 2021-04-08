@@ -6,7 +6,13 @@
 /.config
 /.config.old
 /bin
-/build_dir
+
+!/build_dir/
+/build_dir/*
+# !/build_dir/target-arm_cortex-a7+neon-vfpv4_musl_eabi/
+# /build_dir/target-arm_cortex-a7+neon-vfpv4_musl_eabi/*
+# !/build_dir/target-arm_cortex-a7+neon-vfpv4_musl_eabi/u-boot-imx6ull-ebf6ull-nand/
+
 /staging_dir
 /tmp
 /logs

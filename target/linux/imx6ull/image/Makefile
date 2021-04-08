@@ -78,7 +78,7 @@ define Device/imx6ull-ebf6ull-nand
   PROFILES := imx6ull-ebf6ull-nand
   FILESYSTEMS := nand.ubi
   DEVICE_TITLE := EBF6ULL Mini
-  DEVICE_DTS := imx6ull-fire-nand
+  DEVICE_DTS := imx6ull-ebf6ull-nand
   KERNEL := kernel-bin
   PAGESIZE := 4096
   BLOCKSIZE := 256k
