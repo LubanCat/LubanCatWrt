@@ -53,6 +53,7 @@ define Device/Default
   KERNEL_SUFFIX := -uImage
   KERNEL_NAME := zImage
   KERNEL_PREFIX := $$(IMAGE_PREFIX)
+  KERNEL := kernel-bin | uImage none
 endef
 
 define Device/somlabs_spi
@@ -77,7 +78,7 @@ TARGET_DEVICES += somlabs_sd
 define Device/imx6ull-ebf6ull-nand
   PROFILES := imx6ull-ebf6ull-nand
   FILESYSTEMS := nand.ubi
-  DEVICE_TITLE := EBF6ULL Mini
+  DEVICE_TITLE := EBF6ULL Mini NAND
   DEVICE_DTS := imx6ull-ebf6ull-nand
   KERNEL := kernel-bin
   PAGESIZE := 4096
@@ -91,5 +92,19 @@ define Device/imx6ull-ebf6ull-nand
   kmod-usb-net-cdc-ether kmod-usb-net-cdc-mbim kmod-usb-net-cdc-subset
 endef
 TARGET_DEVICES += imx6ull-ebf6ull-nand
+
+define Device/imx6ull-ebf6ull-emmc
+  PROFILES := imx6ull-ebf6ull-emmc
+  DEVICE_TITLE := EBF6ULL Mini EMMC
+  DEVICE_DTS := imx6ull-ebf6ull-emmc
+  IMAGES := sysupgrade.bin
+  IMAGE/combined.bin := append-rootfs | pad-extra 128k 
+  IMAGE/sysupgrade.bin := sysupgrade-tar
+  DEVICE_PACKAGES := \
+  kmod-usb2 kmod-usb3 kmod-usb-ohci kmod-usb-uhci \
+  kmod-usb-wdm kmod-usb-core kmod-usb-hid kmod-usb-net \
+  kmod-usb-net-cdc-ether kmod-usb-net-cdc-mbim kmod-usb-net-cdc-subset
+endef
+TARGET_DEVICES += imx6ull-ebf6ull-emmc
 
 $(eval $(call BuildImage))
