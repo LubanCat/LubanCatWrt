@@ -56,47 +56,27 @@ define Device/Default
   KERNEL := kernel-bin | uImage none
 endef
 
-define Device/somlabs_spi
-  DEVICE_TITLE := somlabs-spi
-  DEVICE_DTS := imx6ull-14x14-evk
-  KERNEL := kernel-bin | append-dtb | uImage none
-  IMAGE_SIZE := 15000k
-  IMAGES := mtd-full.bin
-  IMAGE/mtd-full.bin := append-kernel | append-rootfs | pad-rootfs | imx6ull-mtd-full
-endef
-TARGET_DEVICES += somlabs_spi
+# define Device/imx6ull-ebf6ull-nand
+#   PROFILES := imx6ull-ebf6ull-nand
+#   FILESYSTEMS := nand.ubi
+#   DEVICE_TITLE := EBF6ULL Mini NAND
+#   DEVICE_DTS := imx6ull-ebf6ull-nand
+#   PAGESIZE := 4096
+#   BLOCKSIZE := 256k
+#   MKUBIFS_OPTS := -m $$(PAGESIZE) -e 248KiB
+#   IMAGES := sysupgrade.bin
+#   IMAGE_SIZE := 262144KiB
+#   DEVICE_PACKAGES := \
+#   kmod-usb2 kmod-usb3 kmod-usb-ohci kmod-usb-uhci \
+#   kmod-usb-wdm kmod-usb-core kmod-usb-hid kmod-usb-net \
+#   kmod-usb-net-cdc-ether kmod-usb-net-cdc-mbim kmod-usb-net-cdc-subset
+# endef
+# TARGET_DEVICES += imx6ull-ebf6ull-nand
 
-define Device/somlabs_sd
-  DEVICE_TITLE := somlabs-sd
-  DEVICE_DTS := imx6ull-14x14-evk
-  KERNEL := kernel-bin | uImage none
-  IMAGES := sdcard.img.gz
-  IMAGE/sdcard.img.gz := sunxi-sdcard | append-metadata | gzip
-endef
-TARGET_DEVICES += somlabs_sd
-
-define Device/imx6ull-ebf6ull-nand
-  PROFILES := imx6ull-ebf6ull-nand
-  FILESYSTEMS := nand.ubi
-  DEVICE_TITLE := EBF6ULL Mini NAND
-  DEVICE_DTS := imx6ull-ebf6ull-nand
-  KERNEL := kernel-bin
-  PAGESIZE := 4096
-  BLOCKSIZE := 256k
-  MKUBIFS_OPTS := -m $$(PAGESIZE) -e 248KiB
-  IMAGES := sysupgrade.bin
-  IMAGE_SIZE := 262144KiB
-  DEVICE_PACKAGES := \
-  kmod-usb2 kmod-usb3 kmod-usb-ohci kmod-usb-uhci \
-  kmod-usb-wdm kmod-usb-core kmod-usb-hid kmod-usb-net \
-  kmod-usb-net-cdc-ether kmod-usb-net-cdc-mbim kmod-usb-net-cdc-subset
-endef
-TARGET_DEVICES += imx6ull-ebf6ull-nand
-
-define Device/imx6ull-ebf6ull-emmc
-  PROFILES := imx6ull-ebf6ull-emmc
-  DEVICE_TITLE := EBF6ULL Mini EMMC
-  DEVICE_DTS := imx6ull-ebf6ull-emmc
+define Device/imx6ull-ebf6ull-mmc
+  PROFILES := imx6ull-ebf6ull-mmc
+  DEVICE_TITLE := EBF6ULL Mini EMMC/SD
+  DEVICE_DTS := imx6ull-ebf6ull-mmc
   IMAGES := sysupgrade.bin
   IMAGE/combined.bin := append-rootfs | pad-extra 128k 
   IMAGE/sysupgrade.bin := sysupgrade-tar
@@ -105,6 +85,6 @@ define Device/imx6ull-ebf6ull-emmc
   kmod-usb-wdm kmod-usb-core kmod-usb-hid kmod-usb-net \
   kmod-usb-net-cdc-ether kmod-usb-net-cdc-mbim kmod-usb-net-cdc-subset
 endef
-TARGET_DEVICES += imx6ull-ebf6ull-emmc
+TARGET_DEVICES += imx6ull-ebf6ull-mmc
 
 $(eval $(call BuildImage))

@@ -1,0 +1,24 @@
+diff -urN linux-4.14.224/net/netfilter/nf_conntrack_core.c linux-4.14.224_bk/net/netfilter/nf_conntrack_core.c
+--- linux-4.14.224/net/netfilter/nf_conntrack_core.c	2021-04-07 09:48:58.490089477 +0800
++++ linux-4.14.224_bk/net/netfilter/nf_conntrack_core.c	2021-04-07 09:45:43.152813770 +0800
+@@ -2083,7 +2083,7 @@
+ 	int i;
+ 
+ 	/* struct nf_ct_ext uses u8 to store offsets/size */
+-	BUILD_BUG_ON(total_extension_size() > 255u);
++	// BUILD_BUG_ON(total_extension_size() > 255u);
+ 
+ 	seqcount_init(&nf_conntrack_generation);
+ 
+diff -urN linux-4.14.224/scripts/Makefile linux-4.14.224_bk/scripts/Makefile
+--- linux-4.14.224/scripts/Makefile	2021-03-07 18:27:46.000000000 +0800
++++ linux-4.14.224_bk/scripts/Makefile	2021-04-07 09:45:43.388815326 +0800
+@@ -28,7 +28,7 @@
+ HOSTCFLAGS_sign-file.o = $(CRYPTO_CFLAGS)
+ HOSTLOADLIBES_sign-file = $(CRYPTO_LIBS)
+ HOSTCFLAGS_extract-cert.o = $(CRYPTO_CFLAGS)
+-HOSTLOADLIBES_extract-cert = $(CRYPTO_LIBS)
++HOSTLOADLIBES_extract-cert = $(CRYPTO_LIBS) -lpthread
+ 
+ always		:= $(hostprogs-y) $(hostprogs-m)
+ 

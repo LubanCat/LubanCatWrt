@@ -1,0 +1,27 @@
+--- a/arch/arm/boot/dts/Makefile
++++ b/arch/arm/boot/dts/Makefile
+@@ -483,7 +483,8 @@ dtb-$(CONFIG_SOC_IMX6UL) += \
+ 	imx6ul-tx6ul-0010.dtb \
+ 	imx6ul-tx6ul-0011.dtb \
+ 	imx6ul-tx6ul-mainboard.dtb \
+-	imx6ull-14x14-evk.dtb
++	imx6ull-14x14-evk.dtb \
++	imx6ull-ebf6ull-mmc.dtb
+ dtb-$(CONFIG_SOC_IMX7D) += \
+ 	imx7d-cl-som-imx7.dtb \
+ 	imx7d-colibri-eval-v3.dtb \
+--- /dev/null
++++ b/arch/arm/boot/dts/imx6ull-ebf6ull-mmc.dts
+@@ -0,0 +1,12 @@
++#include "imx6ul-14x14-evk.dts"
++
++/ {
++	model = "EmbedFire EBF6Ull Board";
++	compatible = "fsl,imx6ull-14x14-evk", "fsl,imx6ull";
++};
++
++&clks {
++	assigned-clocks = <&clks IMX6UL_CLK_PLL3_PFD2>;
++	assigned-clock-rates = <320000000>;
++};
++
