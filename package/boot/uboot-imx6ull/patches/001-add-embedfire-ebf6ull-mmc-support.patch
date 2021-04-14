@@ -1,0 +1,86 @@
+diff -urN u-boot-2020.10copy/arch/arm/dts/imx6ull-ebf6ull-mmc.dts u-boot-2020.10/arch/arm/dts/imx6ull-ebf6ull-mmc.dts
+--- u-boot-2020.10copy/arch/arm/dts/imx6ull-ebf6ull-mmc.dts	1970-01-01 08:00:00.000000000 +0800
++++ u-boot-2020.10/arch/arm/dts/imx6ull-ebf6ull-mmc.dts	2021-04-13 17:56:06.888000000 +0800
+@@ -0,0 +1,18 @@
++// SPDX-License-Identifier: (GPL-2.0 OR MIT)
++//
++// Copyright (C) 2016 Freescale Semiconductor, Inc.
++
++/dts-v1/;
++
++#include "imx6ull.dtsi"
++#include "imx6ul-14x14-evk.dtsi"
++
++/ {
++	model = "EmbedFire EBF6Ull Board";
++	compatible = "fsl,imx6ull-14x14-evk", "fsl,imx6ull";
++};
++
++&clks {
++	assigned-clocks = <&clks IMX6UL_CLK_PLL3_PFD2>;
++	assigned-clock-rates = <320000000>;
++};
+diff -urN u-boot-2020.10copy/configs/mx6ull_ebf6ull_mmc_defconfig u-boot-2020.10/configs/mx6ull_ebf6ull_mmc_defconfig
+--- u-boot-2020.10copy/configs/mx6ull_ebf6ull_mmc_defconfig	1970-01-01 08:00:00.000000000 +0800
++++ u-boot-2020.10/configs/mx6ull_ebf6ull_mmc_defconfig	2021-04-13 17:55:35.417000000 +0800
+@@ -0,0 +1,60 @@
++CONFIG_ARM=y
++CONFIG_ARCH_MX6=y
++CONFIG_SYS_TEXT_BASE=0x87800000
++CONFIG_NR_DRAM_BANKS=1
++CONFIG_ENV_SIZE=0x2000
++CONFIG_ENV_OFFSET=0xC0000
++CONFIG_MX6ULL=y
++CONFIG_TARGET_MX6ULL_14X14_EVK=y
++CONFIG_DM_GPIO=y
++CONFIG_DEFAULT_DEVICE_TREE="imx6ull-ebf6ull-mmc"
++CONFIG_SYS_EXTRA_OPTIONS="IMX_CONFIG=board/freescale/mx6ullevk/imximage.cfg"
++CONFIG_SUPPORT_RAW_INITRD=y
++CONFIG_BOUNCE_BUFFER=y
++CONFIG_BOARD_EARLY_INIT_F=y
++CONFIG_HUSH_PARSER=y
++CONFIG_CMD_BOOTZ=y
++CONFIG_CMD_MEMTEST=y
++CONFIG_SYS_MEMTEST_START=0x80000000
++CONFIG_SYS_MEMTEST_END=0x88000000
++CONFIG_CMD_GPIO=y
++CONFIG_CMD_I2C=y
++CONFIG_CMD_MMC=y
++CONFIG_CMD_DHCP=y
++CONFIG_CMD_PING=y
++CONFIG_CMD_CACHE=y
++CONFIG_CMD_EXT2=y
++CONFIG_CMD_EXT4=y
++CONFIG_CMD_EXT4_WRITE=y
++CONFIG_CMD_FAT=y
++CONFIG_CMD_FS_GENERIC=y
++CONFIG_OF_CONTROL=y
++CONFIG_ENV_OVERWRITE=y
++CONFIG_ENV_IS_IN_MMC=y
++CONFIG_SYS_RELOC_GD_ENV_ADDR=y
++CONFIG_SYS_MMC_ENV_DEV=1
++CONFIG_ENV_VARS_UBOOT_RUNTIME_CONFIG=y
++CONFIG_DM_74X164=y
++CONFIG_DM_I2C=y
++CONFIG_DM_MMC=y
++CONFIG_FSL_USDHC=y
++CONFIG_MTD=y
++CONFIG_DM_SPI_FLASH=y
++CONFIG_SF_DEFAULT_MODE=0
++CONFIG_SF_DEFAULT_SPEED=40000000
++CONFIG_SPI_FLASH_STMICRO=y
++CONFIG_PHYLIB=y
++CONFIG_PHY_MICREL=y
++CONFIG_PHY_MICREL_KSZ8XXX=y
++CONFIG_DM_ETH=y
++CONFIG_FEC_MXC=y
++CONFIG_MII=y
++CONFIG_PINCTRL=y
++CONFIG_PINCTRL_IMX6=y
++CONFIG_DM_REGULATOR=y
++CONFIG_DM_REGULATOR_FIXED=y
++CONFIG_DM_REGULATOR_GPIO=y
++CONFIG_MXC_UART=y
++CONFIG_SPI=y
++CONFIG_DM_SPI=y
++CONFIG_FSL_QSPI=y

@@ -17,12 +17,12 @@ define U-Boot/mx6ull_ebf6ull_nand
   NAME:=EmbedFire EBF6ULL Mini NAND
 endef
 
-define U-Boot/mx6ull_ebf6ull_emmc
+define U-Boot/mx6ull_ebf6ull_mmc
   NAME:=EmbedFire EBF6ULL Mini EMMC
 endef
 
 UBOOT_TARGETS := \
   mx6ull_ebf6ull_nand \
-  mx6ull_ebf6ull_emmc
+  mx6ull_ebf6ull_mmc 
 
 $(eval $(call BuildPackage/U-Boot))
