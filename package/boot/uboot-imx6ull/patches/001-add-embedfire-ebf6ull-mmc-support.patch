@@ -1,6 +1,5 @@
-diff -urN u-boot-2020.10copy/arch/arm/dts/imx6ull-ebf6ull-mmc.dts u-boot-2020.10/arch/arm/dts/imx6ull-ebf6ull-mmc.dts
---- u-boot-2020.10copy/arch/arm/dts/imx6ull-ebf6ull-mmc.dts	1970-01-01 08:00:00.000000000 +0800
-+++ u-boot-2020.10/arch/arm/dts/imx6ull-ebf6ull-mmc.dts	2021-04-13 17:56:06.888000000 +0800
+--- /dev/null
++++ b/arch/arm/dts/imx6ull-ebf6ull-mmc.dts
 @@ -0,0 +1,18 @@
 +// SPDX-License-Identifier: (GPL-2.0 OR MIT)
 +//
@@ -20,9 +19,8 @@ diff -urN u-boot-2020.10copy/arch/arm/dts/imx6ull-ebf6ull-mmc.dts u-boot-2020.10
 +	assigned-clocks = <&clks IMX6UL_CLK_PLL3_PFD2>;
 +	assigned-clock-rates = <320000000>;
 +};
-diff -urN u-boot-2020.10copy/configs/mx6ull_ebf6ull_mmc_defconfig u-boot-2020.10/configs/mx6ull_ebf6ull_mmc_defconfig
---- u-boot-2020.10copy/configs/mx6ull_ebf6ull_mmc_defconfig	1970-01-01 08:00:00.000000000 +0800
-+++ u-boot-2020.10/configs/mx6ull_ebf6ull_mmc_defconfig	2021-04-13 17:55:35.417000000 +0800
+--- /dev/null
++++ b/configs/mx6ull_ebf6ull_mmc_defconfig
 @@ -0,0 +1,60 @@
 +CONFIG_ARM=y
 +CONFIG_ARCH_MX6=y
@@ -84,3 +82,13 @@ diff -urN u-boot-2020.10copy/configs/mx6ull_ebf6ull_mmc_defconfig u-boot-2020.10
 +CONFIG_SPI=y
 +CONFIG_DM_SPI=y
 +CONFIG_FSL_QSPI=y
+--- a/arch/arm/dts/Makefile
++++ b/arch/arm/dts/Makefile
+@@ -726,6 +726,7 @@ dtb-$(CONFIG_MX6UL) += \
+ dtb-$(CONFIG_MX6ULL) += \
+ 	imx6ull-14x14-evk.dtb \
+ 	imx6ull-colibri.dtb \
++	imx6ull-ebf6ull-mmc.dtb \
+ 	imx6ull-myir-mys-6ulx-eval.dtb \
+ 	imx6ull-phytec-segin-ff-rdk-emmc.dtb \
+ 	imx6ull-dart-6ul.dtb \
