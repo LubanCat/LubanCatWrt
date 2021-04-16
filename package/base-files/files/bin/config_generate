@@ -74,7 +74,7 @@ generate_network() {
 
 	# force bridge for multi-interface devices (and lan)
 	case "$1:$ifname" in
-		*\ * | lan:*) type="bridge" ;;
+		*\ * | lan:*) type="none" ;;
 	esac
 
 	uci -q batch <<-EOF
