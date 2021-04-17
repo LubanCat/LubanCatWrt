@@ -10,7 +10,7 @@ board=$(board_name)
 board_config_update
 
 case "$board" in
-ebf6ull)
+embedfire,ebf6ull)
 	ucidef_set_interfaces_lan_wan 'eth0' 'eth1'
 	;;
 esac

@@ -14,7 +14,7 @@ imx6_board_detect() {
 
 	case "$machine" in
 	"EmbedFire EBF6Ull Board")
-		name="ebf6ull"
+		name="embedfire,ebf6ull"
 		;;
 
 	*)
