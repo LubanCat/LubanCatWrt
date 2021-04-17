@@ -8,7 +8,7 @@ include $(TOPDIR)/rules.mk
 
 ARCH:=arm
 BOARD:=imx6ull
-BOARDNAME:=Freescale i.MX 6 ULL
+BOARDNAME:=Freescale i.MX 6ULL
 FEATURES:=audio display fpu gpio rtc usb usbgadget squashfs ext4 targz nand ubifs
 CPU_TYPE:=cortex-a7
 CPU_SUBTYPE:=neon-vfpv4
