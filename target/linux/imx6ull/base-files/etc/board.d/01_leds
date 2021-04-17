@@ -1,0 +1,20 @@
+#!/bin/sh
+
+. /lib/functions/leds.sh
+. /lib/functions/uci-defaults.sh
+
+board=$(board_name)
+boardname="${board##*,}"
+
+board_config_update
+
+case $board in
+embedfire,ebf6ull)
+	ucidef_set_led_netdev "wan" "WAN" "$boardname:blue:wan" "eth1"
+	ucidef_set_led_netdev "lan" "LAN" "$boardname:blue:lan" "eth0"
+	;;
+esac
+
+board_config_flush
+
+exit 0

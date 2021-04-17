@@ -1,0 +1,64 @@
+--- a/arch/arm/boot/dts/imx6ull-ebf6ull-mmc.dts
++++ b/arch/arm/boot/dts/imx6ull-ebf6ull-mmc.dts
+@@ -2,7 +2,38 @@
+ 
+ / {
+ 	model = "EmbedFire EBF6Ull Board";
+-	compatible = "fsl,imx6ull-14x14-evk", "fsl,imx6ull";
++	compatible = "embedfire,ebf6ull", "fsl,imx6ull";
++
++	normal_led{
++		compatible = "gpio-leds";
++		lan_led {
++			pinctrl-names = "default";
++			pinctrl-0 = <&pinctrl_led4>;
++			label = "ebf6ull:blue:lan";
++			gpios = <&gpio1 4 GPIO_ACTIVE_LOW>;
++			default-state = "off";
++			linux,default-trigger = "none";                       
++		};
++		
++		wan_led {
++			pinctrl-names = "default";
++			pinctrl-0 = <&pinctrl_led5>;    
++			label = "ebf6ull:blue:wan";
++			gpios = <&gpio4 20 GPIO_ACTIVE_LOW>;
++			default-state = "off";
++			linux,default-trigger = "none";                          
++		};
++
++		sys_led {
++			pinctrl-names = "default";
++			pinctrl-0 = <&pinctrl_led6>;    
++			label = "ebf6ull:blue:sys";
++			gpios = <&gpio4 19 GPIO_ACTIVE_LOW>;
++			default-state = "off";
++			linux,default-trigger = "none";                           
++		};
++	
++	};
+ };
+ 
+ &clks {
+@@ -10,3 +41,21 @@
+ 	assigned-clock-rates = <320000000>;
+ };
+ 
++&iomuxc {
++	pinctrl-names = "default";
++
++	pinctrl_led4: led4grp{
++		fsl,pins = < MX6UL_PAD_GPIO1_IO04__GPIO1_IO04 0x1b0b0 >;
++	};
++
++	pinctrl_led5: led5grp{
++		fsl,pins = < MX6UL_PAD_CSI_HSYNC__GPIO4_IO20 0x1b0b0 >;
++	};
++
++	pinctrl_led6: led6grp{
++		fsl,pins = < MX6UL_PAD_CSI_VSYNC__GPIO4_IO19 0x1b0b0 >;
++	};
++
++};
++
++
