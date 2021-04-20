@@ -1,6 +1,6 @@
 --- a/arch/arm/boot/dts/imx6ull-ebf6ull-mmc.dts
 +++ b/arch/arm/boot/dts/imx6ull-ebf6ull-mmc.dts
-@@ -2,7 +2,38 @@
+@@ -2,7 +2,48 @@
  
  / {
  	model = "EmbedFire EBF6Ull Board";
@@ -35,12 +35,22 @@
 +			default-state = "off";
 +			linux,default-trigger = "none";                           
 +		};
-+	
++
++		cpu_led {
++			pinctrl-names = "default";
++			pinctrl-0 = <&pinctrl_led7>;
++			label = "cpu";
++			gpios = <&gpio5 3 GPIO_ACTIVE_LOW>;
++			default-state = "on";
++			linux,default-trigger = "heartbeat";
++		};
++
 +	};
++
  };
  
  &clks {
-@@ -10,3 +41,21 @@
+@@ -10,3 +51,27 @@
  	assigned-clock-rates = <320000000>;
  };
  
@@ -59,6 +69,12 @@
 +		fsl,pins = < MX6UL_PAD_CSI_VSYNC__GPIO4_IO19 0x1b0b0 >;
 +	};
 +
++	pinctrl_led7: led7grp {
++		fsl,pins = < MX6UL_PAD_SNVS_TAMPER3__GPIO5_IO03 0x1b0b0 >;
++	};
 +};
 +
++&snvs_pwrkey {
++	status = "okay";
++};
 +
