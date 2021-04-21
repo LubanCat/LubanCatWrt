@@ -17,7 +17,12 @@ define U-Boot/mx6ull_ebf6ull_mmc
   NAME:=EmbedFire EBF6ULL Mini EMMC
 endef
 
+define U-Boot/mx6ull_ebf6ull_sdcard
+  NAME:=EmbedFire EBF6ULL Mini SD
+endef
+
 UBOOT_TARGETS := \
-  mx6ull_ebf6ull_mmc 
+  mx6ull_ebf6ull_mmc \
+  mx6ull_ebf6ull_sdcard
 
 $(eval $(call BuildPackage/U-Boot))
