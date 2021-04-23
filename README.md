@@ -1,16 +1,26 @@
+# 编译说明
 
-# 烧录说明
 
-使用MFG烧录镜像时在以下路径获取烧录文件
+# 镜像烧录说明
+### EMMC烧录
 
-## EMMC版本：
+使用MFG烧录EMMC镜像时在以下路径获取烧录文件
 
-- U-boot：bin/targets/imx6ull/generic/u-boot-mx6ull_ebf6ull_mmc/u-boot-dtb.imx
+**bin/targets/imx6ull/generic-glibc/mfg-tools**
 
-- dtb：build_dir/target-arm_cortex-a7+neon-vfpv4_musl_eabi/linux-imx6ull/image-imx6ull-ebf6ull-mmc.dtb
+#### 文件说明：
 
-- kernel：build_dir/target-arm_cortex-a7+neon-vfpv4_musl_eabi/linux-imx6ull/zImage
+- U-boot：u-boot-dtb.imx
 
-- rootfs：bin/targets/imx6ull/generic/openwrt-imx6ull-device-imx6ull-ebf6ull-mmc-rootfs.tar.gz
+- dtb：imx6ull-ebf6ull-mmc.dtb
 
-## NAND版本：
+- kernel：zImage
+
+- rootfs：openwrt-imx6ull-device-imx6ull-ebf6ull-mmc-rootfs.tar.gz
+
+
+### SD卡烧录
+
+SD卡使用etcher烧录，烧录所需文件在以下路径获取
+
+**bin/targets/imx6ull/generic-glibc/openwrt-imx6ull-imx6ull-ebf6ull-sdcard-ext4-ebf6ull.img.gz**
