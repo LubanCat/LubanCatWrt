@@ -37,7 +37,6 @@ define Build/mfg-tools
 	cp  $(KERNEL_BUILD_DIR)/zImage $(BIN_DIR)/mfg-tools
 	cp  $(BIN_DIR)/u-boot-mx6ull_ebf6ull_mmc/u-boot-dtb.imx $(BIN_DIR)/mfg-tools
 	cp  $(BIN_DIR)/openwrt-imx6ull-device-imx6ull-ebf6ull-mmc-rootfs.tar.gz $(BIN_DIR)/mfg-tools
-	sha256sum $(BIN_DIR)/mfg-tools/* > sha256sums
 
 endef
 
