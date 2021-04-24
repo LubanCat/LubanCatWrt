@@ -3,7 +3,7 @@
 .*.swp
 /env
 /dl
-/.config
+# /.config
 /.config.old
 /bin
 
@@ -34,3 +34,4 @@ TAGS*~
 git-src
 .project
 .cproject
+/zout
