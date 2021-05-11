@@ -22,6 +22,16 @@ define Device/embedfire_doornet1
 endef
 TARGET_DEVICES += embedfire_doornet1
 
+define Device/embedfire_doornet2
+  DEVICE_VENDOR := EmbedFire
+  DEVICE_MODEL := DoorNet2
+  SOC := rk3399
+  UBOOT_DEVICE_NAME := doornet2-rk3399
+  IMAGE/sysupgrade.img.gz := boot-common | boot-script doornet2 | pine64-img | gzip | append-metadata
+  DEVICE_PACKAGES := kmod-r8168 -urngd
+endef
+TARGET_DEVICES += embedfire_doornet2
+
 define Device/pine64_rockpro64
   DEVICE_VENDOR := Pine64
   DEVICE_MODEL := RockPro64
