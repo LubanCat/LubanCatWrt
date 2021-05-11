@@ -48,6 +48,16 @@ endef
 
 # RK3399 boards
 
+define U-Boot/doornet2-rk3399
+  BUILD_SUBTARGET:=armv8
+  NAME:=DoorNet2
+  BUILD_DEVICES:= \
+    embedfire_doornet2
+  DEPENDS:=+PACKAGE_u-boot-doornet2-rk3399:arm-trusted-firmware-rockchip
+  PKG_BUILD_DEPENDS:=arm-trusted-firmware-rockchip
+  ATF:=rk3399_bl31.elf
+endef
+
 define U-Boot/rock-pi-4-rk3399
   BUILD_SUBTARGET:=armv8
   NAME:=Rock Pi 4
@@ -71,7 +81,8 @@ endef
 UBOOT_TARGETS := \
   rock-pi-4-rk3399 \
   rockpro64-rk3399 \
-  doornet1-rk3328
+  doornet1-rk3328 \
+  doornet2-rk3399
 
 UBOOT_CONFIGURE_VARS += USE_PRIVATE_LIBGCC=yes
 
