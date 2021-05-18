@@ -1,5 +1,7 @@
---- a/arch/arm64/boot/dts/rockchip/Makefile
-+++ b/arch/arm64/boot/dts/rockchip/Makefile
+Index: linux-5.4.105/arch/arm64/boot/dts/rockchip/Makefile
+===================================================================
+--- linux-5.4.105.orig/arch/arm64/boot/dts/rockchip/Makefile
++++ linux-5.4.105/arch/arm64/boot/dts/rockchip/Makefile
 @@ -11,6 +11,7 @@ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3368-li
  dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3368-orion-r68-meta.dtb
  dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3368-px5-evb.dtb
@@ -8,8 +10,10 @@
  dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3399-evb.dtb
  dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3399-ficus.dtb
  dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3399-firefly.dtb
+Index: linux-5.4.105/arch/arm64/boot/dts/rockchip/rk3399-doornet2-opp.dtsi
+===================================================================
 --- /dev/null
-+++ b/arch/arm64/boot/dts/rockchip/rk3399-doornet2-opp.dtsi
++++ linux-5.4.105/arch/arm64/boot/dts/rockchip/rk3399-doornet2-opp.dtsi
 @@ -0,0 +1,147 @@
 +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
 +
@@ -158,9 +162,11 @@
 +	operating-points-v2 = <&gpu_opp_table>;
 +};
 +
+Index: linux-5.4.105/arch/arm64/boot/dts/rockchip/rk3399-doornet2.dts
+===================================================================
 --- /dev/null
-+++ b/arch/arm64/boot/dts/rockchip/rk3399-doornet2.dts
-@@ -0,0 +1,142 @@
++++ linux-5.4.105/arch/arm64/boot/dts/rockchip/rk3399-doornet2.dts
+@@ -0,0 +1,115 @@
 +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
 +
 +/dts-v1/;
@@ -222,14 +228,6 @@
 +	};
 +};
 +
-+&emmc_phy {
-+	status = "disabled";
-+};
-+
-+&i2c4 {
-+	status = "disabled";
-+};
-+
 +&pcie0 {
 +	max-link-speed = <1>;
 +	num-lanes = <1>;
@@ -275,37 +273,20 @@
 +	};
 +};
 +
-+&sdhci {
-+	status = "disabled";
-+};
-+
-+&sdio0 {
-+	status = "disabled";
-+};
-+
 +&u2phy0_host {
 +	phy-supply = <&vdd_5v>;
-+};
-+
-+&u2phy1_host {
-+	status = "disabled";
-+};
-+
-+&uart0 {
-+	status = "disabled";
-+};
-+
-+&usbdrd_dwc3_0 {
-+	dr_mode = "host";
 +};
 +
 +&vcc3v3_sys {
 +	vin-supply = <&vcc5v0_sys>;
 +};
 +
++
+Index: linux-5.4.105/arch/arm64/boot/dts/rockchip/rk3399-doornet2.dtsi
+===================================================================
 --- /dev/null
-+++ b/arch/arm64/boot/dts/rockchip/rk3399-doornet2.dtsi
-@@ -0,0 +1,718 @@
++++ linux-5.4.105/arch/arm64/boot/dts/rockchip/rk3399-doornet2.dtsi
+@@ -0,0 +1,641 @@
 +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
 +
 +/dts-v1/;
@@ -436,37 +417,34 @@
 +	cpu-supply = <&vdd_cpu_l>;
 +};
 +
-+&emmc_phy {
-+	status = "okay";
-+};
-+
 +&gmac {
-+	assigned-clock-parents = <&clkin_gmac>;
 +	assigned-clocks = <&cru SCLK_RMII_SRC>;
++	assigned-clock-parents = <&clkin_gmac>;
 +	clock_in_out = "input";
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&rgmii_pins>, <&phy_intb>, <&phy_rstb>;
-+	phy-handle = <&rtl8211f>;
-+	phy-mode = "rgmii";
 +	phy-supply = <&vcc3v3_s3>;
-+	snps,reset-active-low;
-+	snps,reset-delays-us = <0 10000 30000>;
-+	snps,reset-gpio = <&gpio3 RK_PB7 GPIO_ACTIVE_LOW>;
-+	tx_delay = <0x28>;
++	phy-mode = "rgmii";
++	phy-handle = <&rtl8211f>;
++	pinctrl-names = "default";
++	pinctrl-0 = <&rgmii_pins>;
++	snps,aal;
++	tx_delay = <0x37>;
 +	rx_delay = <0x11>;
 +	status = "okay";
-+
++	
 +	mdio {
 +		compatible = "snps,dwmac-mdio";
 +		#address-cells = <1>;
 +		#size-cells = <0>;
 +
-+		rtl8211f: phy@1 {
++		rtl8211f: ethernet-phy@1 {
 +			compatible = "ethernet-phy-id001c.c916",
-+			     "ethernet-phy-ieee802.3-c22";
-+			reg = <1>;
-+			interrupt-parent = <&gpio3>;
-+			interrupts = <RK_PB2 IRQ_TYPE_LEVEL_LOW>;
++				     "ethernet-phy-ieee802.3-c22";			
++			reg = <0>;
++			pinctrl-0 = <&eth_phy_reset_pin>;
++			pinctrl-names = "default";
++			reset-assert-us = <10000>;
++			reset-deassert-us = <50000>;
++			reset-gpios = <&gpio3 RK_PB7 GPIO_ACTIVE_LOW>;
 +		};
 +	};
 +};
@@ -737,23 +715,6 @@
 +	status = "okay";
 +};
 +
-+&i2c4 {
-+	clock-frequency = <400000>;
-+	i2c-scl-rising-time-ns = <160>;
-+	i2c-scl-falling-time-ns = <30>;
-+	status = "okay";
-+
-+	fusb0: typec-portc@22 {
-+		compatible = "fcs,fusb302";
-+		reg = <0x22>;
-+		interrupt-parent = <&gpio1>;
-+		interrupts = <RK_PA2 IRQ_TYPE_LEVEL_LOW>;
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&fusb0_int>;
-+		vbus-supply = <&vbus_typec>;
-+	};
-+};
-+
 +&i2c7 {
 +	status = "okay";
 +};
@@ -793,13 +754,9 @@
 +		};
 +	};
 +
-+	phy {
-+		phy_intb: phy-intb {
-+			rockchip,pins = <3 RK_PB2 RK_FUNC_GPIO &pcfg_pull_up>;
-+		};
-+
-+		phy_rstb: phy-rstb {
-+			rockchip,pins = <3 RK_PB7 RK_FUNC_GPIO &pcfg_pull_none>;
++	ethernet-phy {
++		eth_phy_reset_pin: eth-phy-reset-pin {
++			rockchip,pins = <3 RK_PB7 RK_FUNC_GPIO &pcfg_pull_down>;
 +		};
 +	};
 +
@@ -858,42 +815,12 @@
 +	status = "okay";
 +};
 +
-+&pwm0 {
-+	status = "okay";
-+};
-+
 +&pwm1 {
-+	status = "okay";
-+};
-+
-+&pwm2 {
-+	pinctrl-names = "active";
-+	pinctrl-0 = <&pwm2_pin_pull_down>;
 +	status = "okay";
 +};
 +
 +&saradc {
 +	vref-supply = <&vcca1v8_s3>;
-+	status = "okay";
-+};
-+
-+&sdhci {
-+	bus-width = <8>;
-+	mmc-hs200-1_8v;
-+	non-removable;
-+	status = "okay";
-+};
-+
-+&sdio0 {
-+	bus-width = <4>;
-+	cap-sd-highspeed;
-+	cap-sdio-irq;
-+	keep-power-in-suspend;
-+	mmc-pwrseq = <&sdio_pwrseq>;
-+	non-removable;
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&sdio0_bus4 &sdio0_cmd &sdio0_clk>;
-+	sd-uhs-sdr104;
 +	status = "okay";
 +};
 +
@@ -943,32 +870,8 @@
 +	status = "okay";
 +};
 +
-+&u2phy1_host {
-+	status = "okay";
-+};
-+
 +&u2phy1_otg {
 +	status = "okay";
-+};
-+
-+&uart0 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&uart0_xfer &uart0_rts &uart0_cts>;
-+	status = "okay";
-+
-+	bluetooth {
-+		compatible = "brcm,bcm43438-bt";
-+		clocks = <&rk808 1>;
-+		clock-names = "lpo";
-+		device-wakeup-gpios = <&gpio2 RK_PD2 GPIO_ACTIVE_HIGH>;
-+		host-wakeup-gpios = <&gpio0 RK_PA4 GPIO_ACTIVE_HIGH>;
-+		shutdown-gpios = <&gpio0 RK_PB1 GPIO_ACTIVE_HIGH>;
-+		max-speed = <4000000>;
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&bt_reg_on_h &bt_host_wake_l &bt_wake_l>;
-+		vbat-supply = <&vcc3v3_sys>;
-+		vddio-supply = <&vcc_1v8>;
-+	};
 +};
 +
 +&uart2 {
@@ -984,6 +887,7 @@
 +};
 +
 +&usbdrd_dwc3_0 {
++	dr_mode = "host";
 +	status = "okay";
 +};
 +
