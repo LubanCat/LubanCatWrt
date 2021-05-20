@@ -292,7 +292,7 @@ Index: linux-5.4.105/arch/arm64/boot/dts/rockchip/rk3399-doornet2.dtsi
 +/dts-v1/;
 +#include <dt-bindings/input/linux-event-codes.h>
 +#include "rk3399.dtsi"
-+#include "rk3399-doornet2-opp.dtsi"
++#include "rk3399-opp.dtsi"
 +
 +/ {
 +	chosen {
