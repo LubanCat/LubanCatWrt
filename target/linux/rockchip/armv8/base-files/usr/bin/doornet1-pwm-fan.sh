@@ -17,17 +17,17 @@ ISENABLE=`cat /sys/class/pwm/pwmchip0/pwm0/enable`
 if [ $ISENABLE -eq 1 ]; then
     echo -n 0 > /sys/class/pwm/pwmchip0/pwm0/enable
 fi
-echo -n 2000000 > /sys/class/pwm/pwmchip0/pwm0/period
+echo -n 60000000 > /sys/class/pwm/pwmchip0/pwm0/period
 echo -n 1 > /sys/class/pwm/pwmchip0/pwm0/enable
 
 # max speed run 5s
-echo -n 1900000 > /sys/class/pwm/pwmchip0/pwm0/duty_cycle
+echo -n 50000000 > /sys/class/pwm/pwmchip0/pwm0/duty_cycle
 sleep 5
 echo -n 0 > /sys/class/pwm/pwmchip0/pwm0/duty_cycle
 
 
-declare -a CpuTemps=(83000 81500 80000 78500 77000 75500 74000 72500 71000 69500 68000 66500 65000 63500 62000 60500)
-declare -a PwmDutyCycles=(2000000 1900000 1800000 1700000 1600000 1500000 1400000 1300000 1200000 1100000 1000000 900000 800000 700000 600000 0)
+declare -a CpuTemps=(69000 68000 67000 66000 65000 64000 63000 62000 61000 60000 59000 58000 57000 56000 55000 54000)
+declare -a PwmDutyCycles=(60000000 57000000 54000000 51000000 48000000 45000000 42000000 39000000 36000000 33000000 30000000 27000000 24000000 21000000 18000000 0)
 
 declare -a Percents=(100 95 90 85 80 75 70 65 60 55 50 45 40 35 30 0)
 DefaultDuty=0
@@ -53,10 +53,21 @@ do
 		PERCENT=${Percents[$i]}
 	fi
 
-	echo -n $DUTY > /sys/class/pwm/pwmchip0/pwm0/duty_cycle;
+	if [[ $last_dutu -eq '0' ]]; then
+		if [[ $DUTY -ne '0' ]]; then 
+			echo -n 45000000 > /sys/class/pwm/pwmchip0/pwm0/duty_cycle;
+			sleep 1s;
+			echo -n $DUTY > /sys/class/pwm/pwmchip0/pwm0/duty_cycle;
+		else
+			echo -n 0 > /sys/class/pwm/pwmchip0/pwm0/duty_cycle;
+		fi
+	else
+		echo -n $DUTY > /sys/class/pwm/pwmchip0/pwm0/duty_cycle;
+	fi
 
-        echo "temp: $temp, duty: $DUTY, ${PERCENT}%"
-        # cat /sys/devices/system/cpu/cpu*/cpufreq/cpuinfo_cur_freq
+	last_dutu=$DUTY
+	echo "temp: $temp, duty: $DUTY, ${PERCENT}%"
+	# cat /sys/devices/system/cpu/cpu*/cpufreq/cpuinfo_cur_freq
 
 	sleep 10s;
 done
