@@ -45,7 +45,7 @@ echo '**************begining update and install feeds************'
 
 
 echo '**************application' ${DEVICE_NAME} 'defconfig***************'
-#使用DoorNet1默认配置
+#生成DoorNet默认配置文件
 cat ./config/$DEVICE_CFG > .config
 make defconfig
 
