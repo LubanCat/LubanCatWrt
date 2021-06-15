@@ -1,5 +1,7 @@
---- a/arch/arm64/boot/dts/rockchip/Makefile
-+++ b/arch/arm64/boot/dts/rockchip/Makefile
+Index: linux-5.4.105/arch/arm64/boot/dts/rockchip/Makefile
+===================================================================
+--- linux-5.4.105.orig/arch/arm64/boot/dts/rockchip/Makefile
++++ linux-5.4.105/arch/arm64/boot/dts/rockchip/Makefile
 @@ -4,6 +4,7 @@ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3328-ev
  dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3328-nanopi-r2s.dtb
  dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3328-rock64.dtb
@@ -8,9 +10,11 @@
  dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3368-evb-act8846.dtb
  dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3368-geekbox.dtb
  dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3368-lion-haikou.dtb
+Index: linux-5.4.105/arch/arm64/boot/dts/rockchip/rk3328-doornet1.dts
+===================================================================
 --- /dev/null
-+++ b/arch/arm64/boot/dts/rockchip/rk3328-doornet1.dts
-@@ -0,0 +1,410 @@
++++ linux-5.4.105/arch/arm64/boot/dts/rockchip/rk3328-doornet1.dts
+@@ -0,0 +1,412 @@
 +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
 +/*
 + * Copyright (c) 2020 David Bauer <mail@david-bauer.net>
@@ -155,9 +159,11 @@
 +	phy-supply = <&vcc_io_33>;
 +	pinctrl-0 = <&rgmiim1_pins>;
 +	pinctrl-names = "default";
-+	rx_delay = <0x54>;
 +	snps,aal;
-+	tx_delay = <0x20>;
++	snps,rxpbl = <0x4>;
++	snps,txpbl = <0x4>;
++	tx_delay = <0x24>;
++	rx_delay = <0x58>;
 +	status = "okay";
 +
 +	mdio {
