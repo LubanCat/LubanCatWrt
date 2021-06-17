@@ -18,7 +18,7 @@ define Device/embedfire_doornet1
   SOC := rk3328
   UBOOT_DEVICE_NAME := doornet1-rk3328
   IMAGE/sysupgrade.img.gz := boot-common | boot-script doornet1 | pine64-img | gzip | append-metadata
-  DEVICE_PACKAGES := kmod-usb-net-rtl8152
+  DEVICE_PACKAGES := kmod-usb-net-rtl8152-vendor
 endef
 TARGET_DEVICES += embedfire_doornet1
 
