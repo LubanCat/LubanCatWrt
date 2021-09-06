@@ -26,7 +26,6 @@ set wireless.radio0.noscan=1
 set wireless.default_radio0.ssid=DoorNet
 set wireless.default_radio0.encryption=psk2
 set wireless.default_radio0.key=password
-set network.lan.type='bridge'
 EOF
             fi
 
