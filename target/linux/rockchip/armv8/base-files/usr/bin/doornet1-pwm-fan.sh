@@ -26,10 +26,10 @@ sleep 5
 echo -n 0 > /sys/class/pwm/pwmchip0/pwm0/duty_cycle
 
 
-declare -a CpuTemps=(69000 68000 67000 66000 65000 64000 63000 62000 61000 60000 59000 58000 57000 56000 55000 54000)
-declare -a PwmDutyCycles=(60000000 57000000 54000000 51000000 48000000 45000000 42000000 39000000 36000000 33000000 30000000 27000000 24000000 21000000 18000000 0)
+declare -a CpuTemps=(69000 66000 63000 60000 57000 54000 51000 48000 )
+declare -a PwmDutyCycles=(60000000 54000000 48000000 42000000 36000000 30000000 24000000 0)
 
-declare -a Percents=(100 95 90 85 80 75 70 65 60 55 50 45 40 35 30 0)
+declare -a Percents=(100 90 80 70 60 50 40 0)
 DefaultDuty=0
 DefaultPercents=0
 
@@ -41,7 +41,7 @@ do
 	DUTY=$DefaultDuty
 	PERCENT=$DefaultPercents
 	
-	for i in 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15; do
+	for i in 0 1 2 3 4 5 6 7; do
 		if [ $temp -gt ${CpuTemps[$i]} ]; then
 			INDEX=$i
 			FOUNDTEMP=1
