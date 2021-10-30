@@ -89,7 +89,7 @@
 +};
 +
 +&emmc_phy {
-+	status = "disabled";
++	status = "okay";
 +};
 +
 +&i2c4 {
@@ -129,7 +129,7 @@
 +};
 +
 +&sdhci {
-+	status = "disabled";
++	status = "okay";
 +};
 +
 +&sdio0 {
