@@ -1,0 +1,59 @@
+From 5046ce8dc07f242cb22d69c250a817d3a194b0ed Mon Sep 17 00:00:00 2001
+From: GitHub <git@github.com>
+Date: Sat, 13 Nov 2021 15:13:41 +0800
+Subject: [PATCH] arm64: dts: rockchip: add more cpu operating points for rk3328
+This allows for greater max frequency on rk3328 boards,
+increasing performance.
+
+---
+ arch/arm64/boot/dts/rockchip/rk3328.dtsi | 23 ++++++++++++-----------
+ 1 file changed, 12 insertions(+), 11 deletions(-)
+
+diff --git a/arch/arm64/boot/dts/rockchip/rk3328.dtsi b/arch/arm64/boot/dts/rockchip/rk3328.dtsi
+index 8a1414e15..4bd481317 100644
+--- a/arch/arm64/boot/dts/rockchip/rk3328.dtsi
++++ b/arch/arm64/boot/dts/rockchip/rk3328.dtsi
+@@ -92,21 +92,11 @@
+ 		compatible = "operating-points-v2";
+ 		opp-shared;
+ 
+-		opp-408000000 {
+-			opp-hz = /bits/ 64 <408000000>;
+-			opp-microvolt = <950000>;
+-			clock-latency-ns = <40000>;
+-			opp-suspend;
+-		};
+-		opp-600000000 {
+-			opp-hz = /bits/ 64 <600000000>;
+-			opp-microvolt = <950000>;
+-			clock-latency-ns = <40000>;
+-		};
+ 		opp-816000000 {
+ 			opp-hz = /bits/ 64 <816000000>;
+ 			opp-microvolt = <1000000>;
+ 			clock-latency-ns = <40000>;
++			opp-suspend;
+ 		};
+ 		opp-1008000000 {
+ 			opp-hz = /bits/ 64 <1008000000>;
+@@ -123,6 +113,17 @@
+ 			opp-microvolt = <1300000>;
+ 			clock-latency-ns = <40000>;
+ 		};
++		opp-1392000000 {
++			opp-hz = /bits/ 64 <1392000000>;
++			opp-microvolt = <1350000>;
++			clock-latency-ns = <40000>;
++
++		};
++		opp-1512000000 {
++			opp-hz = /bits/ 64 <1512000000>;
++			opp-microvolt = <1425000>;
++			clock-latency-ns = <40000>;
++		};
+ 	};
+ 
+ 	amba {
+-- 
+2.25.1
+
