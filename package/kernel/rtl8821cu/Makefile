@@ -1,6 +1,6 @@
 #
-# Copyright (C) 2021 ImmortalWrt
-# <https://immortalwrt.org>
+# Copyright (C) 2021 CTCGFW Project-OpenWrt
+# <https://project-openwrt.eu.org>
 #
 # This is free software, licensed under the GNU General Public License v3.
 # See /LICENSE for more information.
@@ -13,13 +13,13 @@ PKG_RELEASE:=1
 
 PKG_SOURCE_URL:=https://github.com/brektrou/rtl8821CU.git
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_DATE:=2020-12-19
-PKG_SOURCE_VERSION:=428a0820487418ec69c0edb91726d1cf19763b1e
-PKG_MIRROR_HASH:=77958d3bff8b0145504a10959765be0e3743b9c4880a5173d156238c2c569a56
+PKG_SOURCE_DATE:=2020-07-27
+PKG_SOURCE_VERSION:=93b04bfcd293fdd7d98d5a7c964ae9416a40159c
+PKG_MIRROR_HASH:=e3d798355625bd71596ce08741e1f7f3523951e91be775edf2a936ab260bd5de
 
 PKG_LICENSE:=GPL-2.0
 PKG_LICENSE_FILES:=LICENSE
-PKG_MAINTAINTER:=CN_SZTL <cnsztl@immortalwrt.org>
+PKG_MAINTAINTER:=CN_SZTL <cnsztl@project-openwrt.eu.org>
 
 PKG_BUILD_PARALLEL:=1
 
@@ -37,6 +37,10 @@ define KernelPackage/rtl8821cu
   PROVIDES:=kmod-rtl8821cu
 endef
 
+define KernelPackage/rtl8821cu/description
+  Realtek RTL8811CU/RTL8821CU USB Wi-Fi adapter driver.
+endef
+
 NOSTDINC_FLAGS = \
 	-I$(PKG_BUILD_DIR) \
 	-I$(PKG_BUILD_DIR)/include \
@@ -47,7 +51,7 @@ NOSTDINC_FLAGS = \
 	-include backport/autoconf.h \
 	-include backport/backport.h
 
-EXTRA_KCONFIG:= \
+EXTRA_KCONFIG:=\
 	CONFIG_RTL8821CU=m \
 	USER_MODULE_NAME=rtl8821cu
 
@@ -58,15 +62,16 @@ endif
 EXTRA_CFLAGS:= \
 	-DRTW_SINGLE_WIPHY \
 	-DRTW_USE_CFG80211_STA_EVENT \
+	-DCONFIG_RADIO_WORK \
 	-DCONFIG_IOCTL_CFG80211 \
 	-DCONFIG_CONCURRENT_MODE \
-	-DBUILD_OPENWRT
+	-DBUILD_OPENWRT \
 
 ifeq ($(ARCH),arm)
 	EXTRA_CFLAGS += -mfloat-abi=softfp
 endif
 
-ifeq ($(BOARD),x86)
+ifeq ($(ARCH),x86_64)
 	EXTRA_CFLAGS += -mhard-float
 endif
 
