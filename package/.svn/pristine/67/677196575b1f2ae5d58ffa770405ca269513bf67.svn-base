@@ -1,4 +1,0 @@
-#!/bin/sh
-
-rm -rf /root/.init
-/sbin/jffs2reset $@
