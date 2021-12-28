@@ -1,0 +1,40 @@
+--- a/arch/arm64/boot/dts/rockchip/rk3328-doornet1.dts
++++ b/arch/arm64/boot/dts/rockchip/rk3328-doornet1.dts
+@@ -242,34 +242,16 @@
+ 	assigned-clocks = <&cru SCLK_MAC2IO>, <&cru SCLK_MAC2IO_EXT>;
+ 	assigned-clock-parents = <&gmac_clk>, <&gmac_clk>;
+ 	clock_in_out = "input";
+-	phy-handle = <&rtl8211f>;
+ 	phy-mode = "rgmii";
+ 	phy-supply = <&vcc_io_33>;
+ 	pinctrl-0 = <&rgmiim1_pins>;
+ 	pinctrl-names = "default";
+-	snps,aal;
+-	snps,rxpbl = <0x4>;
+-	snps,txpbl = <0x4>;
++	snps,reset-gpio = <&gpio1 RK_PC2 GPIO_ACTIVE_LOW>;
++	snps,reset-delays-us = <0 1000000 50000>;
++	snps,reset-active-low;
+ 	tx_delay = <0xf>;
+ 	rx_delay = <0x68>;
+ 	status = "okay";
+-
+-	mdio {
+-		compatible = "snps,dwmac-mdio";
+-		#address-cells = <1>;
+-		#size-cells = <0>;
+-
+-		rtl8211f: ethernet-phy@1 {
+-			compatible = "ethernet-phy-ieee802.3-c22";
+-			reg = <1>;
+-			pinctrl-0 = <&eth_phy_reset_pin>;
+-			pinctrl-names = "default";
+-			reset-assert-us = <10000>;
+-			reset-deassert-us = <50000>;
+-			reset-gpios = <&gpio1 RK_PC2 GPIO_ACTIVE_LOW>;
+-
+-		};
+-	};
+ };
+ 
+ &i2c1 {
