@@ -12,7 +12,7 @@
  	rk3368-lion.dtb \
 --- /dev/null
 +++ b/arch/arm/dts/rk3328-doornet1-u-boot.dtsi
-@@ -0,0 +1,40 @@
+@@ -0,0 +1,46 @@
 +// SPDX-License-Identifier: GPL-2.0+
 +/*
 + * (C) Copyright 2018-2019 Rockchip Electronics Co., Ltd
@@ -22,6 +22,11 @@
 +#include "rk3328-u-boot.dtsi"
 +#include "rk3328-sdram-ddr4-666.dtsi"
 +/ {
++	aliases {
++		mmc0 = &sdmmc;
++		mmc1 = &emmc;
++	};
++
 +	chosen {
 +		u-boot,spl-boot-order = "same-as-spl", &sdmmc, &emmc;
 +	};
@@ -53,9 +58,10 @@
 +	snps,reset-active-low;
 +	snps,reset-delays-us = <0 10000 50000>;
 +};
++
 --- /dev/null
 +++ b/arch/arm/dts/rk3328-doornet1.dts
-@@ -0,0 +1,370 @@
+@@ -0,0 +1,385 @@
 +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
 +/*
 + * Copyright (c) 2020 David Bauer <mail@david-bauer.net>
@@ -392,6 +398,20 @@
 +	status = "okay";
 +};
 +
++&emmc {
++	bus-width = <8>;
++	cap-mmc-highspeed;
++	max-frequency = <150000000>;
++	mmc-ddr-1_8v;
++	mmc-hs200-1_8v;
++	non-removable;
++	pinctrl-names = "default";
++	pinctrl-0 = <&emmc_clk &emmc_cmd &emmc_bus8>;
++	vmmc-supply = <&vcc_io_33>;
++	vqmmc-supply = <&vcc18_emmc>;
++	status = "okay";
++};
++
 +&tsadc {
 +	rockchip,hw-tshut-mode = <0>;
 +	rockchip,hw-tshut-polarity = <0>;
@@ -426,6 +446,7 @@
 +&usb_host0_ohci {
 +	status = "okay";
 +};
++
 --- /dev/null
 +++ b/configs/doornet1-rk3328_defconfig
 @@ -0,0 +1,98 @@
