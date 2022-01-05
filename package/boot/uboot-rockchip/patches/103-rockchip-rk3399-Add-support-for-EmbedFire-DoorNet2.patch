@@ -10,7 +10,7 @@
  	rk3399-firefly.dtb \
 --- /dev/null
 +++ b/arch/arm/dts/rk3399-doornet2-u-boot.dtsi
-@@ -0,0 +1,20 @@
+@@ -0,0 +1,26 @@
 +// SPDX-License-Identifier: GPL-2.0+
 +/*
 + * Copyright (C) 2019 Jagan Teki <jagan@amarulasolutions.com>
@@ -22,14 +22,20 @@
 +#include "rk3399-sdram-ddr3-1866.dtsi"
 +
 +/{
++	aliases {
++		mmc0 = &sdmmc;
++		mmc1 = &sdhci;
++	};
++
 +	chosen {
-+		u-boot,spl-boot-order = "same-as-spl", &sdhci, &sdmmc;
++		u-boot,spl-boot-order = "same-as-spl", &sdmmc, &sdhci;
 +	};
 +};
-+
++             
 +&sdmmc {
 +	pinctrl-0 = <&sdmmc_bus4 &sdmmc_clk &sdmmc_cmd &sdmmc_cd>;
 +};
++
 +
 --- /dev/null
 +++ b/arch/arm/dts/rk3399-doornet2.dts
@@ -976,3 +982,16 @@
 +CONFIG_SPL_TINY_MEMSET=y
 +CONFIG_ERRNO_STR=y
 +
+--- a/arch/arm/mach-rockchip/rk3399/rk3399.c
++++ b/arch/arm/mach-rockchip/rk3399/rk3399.c
+@@ -26,9 +26,9 @@ DECLARE_GLOBAL_DATA_PTR;
+ #define GRF_BASE	0xff770000
+ 
+ const char * const boot_devices[BROM_LAST_BOOTSOURCE + 1] = {
++	[BROM_BOOTSOURCE_SD] = "/mmc@fe320000",
+ 	[BROM_BOOTSOURCE_EMMC] = "/sdhci@fe330000",
+ 	[BROM_BOOTSOURCE_SPINOR] = "/spi@ff1d0000",
+-	[BROM_BOOTSOURCE_SD] = "/mmc@fe320000",
+ };
+ 
+ static struct mm_region rk3399_mem_map[] = {
