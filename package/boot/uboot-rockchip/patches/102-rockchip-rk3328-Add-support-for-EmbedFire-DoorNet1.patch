@@ -16,7 +16,7 @@
 +// SPDX-License-Identifier: GPL-2.0+
 +/*
 + * (C) Copyright 2018-2019 Rockchip Electronics Co., Ltd
-+ * (C) Copyright 2020 David Bauer
++ * Copyright (c) 2021 EmbedFire <embedfire@embedfire.com>
 + */
 +
 +#include "rk3328-u-boot.dtsi"
