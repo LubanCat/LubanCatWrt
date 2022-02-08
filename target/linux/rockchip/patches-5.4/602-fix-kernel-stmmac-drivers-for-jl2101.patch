@@ -1,6 +1,6 @@
 --- a/drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c
 +++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c
-@@ -363,6 +363,11 @@ int stmmac_mdio_register(struct stmmac_priv *priv)
+@@ -363,6 +363,11 @@ int stmmac_mdio_register(struct net_device *ndev)
  		goto bus_register_fail;
  	}
  
