@@ -5,10 +5,10 @@
 include $(TOPDIR)/rules.mk
 include $(INCLUDE_DIR)/kernel.mk
 
-PKG_VERSION:=2021.01
-PKG_RELEASE:=1
+PKG_VERSION:=2021.07
+PKG_RELEASE:=$(AUTORELEASE)
 
-PKG_HASH:=b407e1510a74e863b8b5cb42a24625344f0e0c2fc7582d8c866bd899367d0454
+PKG_HASH:=312b7eeae44581d1362c3a3f02c28d806647756c82ba8c72241c7cdbe68ba77e
 
 PKG_MAINTAINER:=Tobias Maedel <openwrt@tbspace.de>
 
@@ -28,11 +28,13 @@ define U-Boot/nanopi-r2s-rk3328
   BUILD_SUBTARGET:=armv8
   NAME:=NanoPi R2S
   BUILD_DEVICES:= \
-    friendlyarm_nanopi-r2s
-  DEPENDS:=+PACKAGE_u-boot-nanopi-r2s-rk3328:arm-trusted-firmware-rockchip
-  PKG_BUILD_DEPENDS:=arm-trusted-firmware-rockchip
-  ATF:=rk3328_bl31.elf
+    friendlyarm_nanopi-r2s \
+    friendlyarm_nanopi-neo3
+  DEPENDS:=+PACKAGE_u-boot-nanopi-r2s-rk3328:arm-trusted-firmware-rk3328
+  PKG_BUILD_DEPENDS:=arm-trusted-firmware-rockchip-vendor
+  ATF:=rk322xh_bl31_v1.46.elf
   OF_PLATDATA:=$(1)
+  USE_RKBIN:=1
 endef
 
 define U-Boot/doornet1-rk3328
@@ -41,7 +43,7 @@ define U-Boot/doornet1-rk3328
   BUILD_DEVICES:= \
     embedfire_doornet1
   DEPENDS:=+PACKAGE_u-boot-doornet1-rk3328:arm-trusted-firmware-rk3328
-  PKG_BUILD_DEPENDS:=arm-trusted-firmware-rk3328
+  PKG_BUILD_DEPENDS:=arm-trusted-firmware-rockchip-vendor
   ATF:=rk322xh_bl31_v1.46.elf
   OF_PLATDATA:=$(1)
   USE_RKBIN:=1
@@ -54,9 +56,21 @@ define U-Boot/doornet2-rk3399
   NAME:=DoorNet2
   BUILD_DEVICES:= \
     embedfire_doornet2
-  DEPENDS:=+PACKAGE_u-boot-doornet2-rk3399:arm-trusted-firmware-rockchip
-  PKG_BUILD_DEPENDS:=arm-trusted-firmware-rockchip
-  ATF:=rk3399_bl31.elf
+  DEPENDS:=+PACKAGE_u-boot-doornet2-rk3399:arm-trusted-firmware-rk3399
+  PKG_BUILD_DEPENDS:=arm-trusted-firmware-rockchip-vendor
+  ATF:=rk3399_bl31_v1.35.elf
+  USE_RKBIN:=1
+endef
+
+define U-Boot/nanopi-r4s-rk3399
+  BUILD_SUBTARGET:=armv8
+  NAME:=NanoPi R4S
+  BUILD_DEVICES:= \
+    friendlyarm_nanopi-r4s
+  DEPENDS:=+PACKAGE_u-boot-nanopi-r4s-rk3399:arm-trusted-firmware-rk3399
+  PKG_BUILD_DEPENDS:=arm-trusted-firmware-rockchip-vendor
+  ATF:=rk3399_bl31_v1.35.elf
+  USE_RKBIN:=1
 endef
 
 define U-Boot/rock-pi-4-rk3399
@@ -80,10 +94,11 @@ define U-Boot/rockpro64-rk3399
 endef
 
 UBOOT_TARGETS := \
-  rock-pi-4-rk3399 \
+  doornet2-rk3399 \
+  nanopi-r4s-rk3399 \
   rockpro64-rk3399 \
   doornet1-rk3328 \
-  doornet2-rk3399 
+  nanopi-r2s-rk3328
 
 UBOOT_CONFIGURE_VARS += USE_PRIVATE_LIBGCC=yes
 
@@ -97,8 +112,9 @@ ifneq ($(OF_PLATDATA),)
 	mkdir -p $(PKG_BUILD_DIR)/tpl/dts
 	mkdir -p $(PKG_BUILD_DIR)/include/generated
 
-	$(CP) $(PKG_BUILD_DIR)/of-platdata/$(OF_PLATDATA)/dt-platdata.c $(PKG_BUILD_DIR)/tpl/dts/dt-platdata.c
+	$(CP) $(PKG_BUILD_DIR)/of-platdata/$(OF_PLATDATA)/dt-plat.c $(PKG_BUILD_DIR)/tpl/dts/dt-plat.c
 	$(CP) $(PKG_BUILD_DIR)/of-platdata/$(OF_PLATDATA)/dt-structs-gen.h $(PKG_BUILD_DIR)/include/generated/dt-structs-gen.h
+	$(CP) $(PKG_BUILD_DIR)/of-platdata/$(OF_PLATDATA)/dt-decl.h $(PKG_BUILD_DIR)/include/generated/dt-decl.h
 endif
 
 	$(SED) 's#CONFIG_MKIMAGE_DTC_PATH=.*#CONFIG_MKIMAGE_DTC_PATH="$(PKG_BUILD_DIR)/scripts/dtc/dtc"#g' $(PKG_BUILD_DIR)/.config
@@ -110,8 +126,6 @@ define Build/InstallDev
 ifneq ($(USE_RKBIN),)
 	$(STAGING_DIR_IMAGE)/loaderimage --pack --uboot $(PKG_BUILD_DIR)/u-boot-dtb.bin $(PKG_BUILD_DIR)/uboot.img 0x200000
 	$(CP) $(PKG_BUILD_DIR)/uboot.img $(STAGING_DIR_IMAGE)/$(BUILD_VARIANT)-uboot.img
-	$(CP) $(STAGING_DIR_IMAGE)/idbloader.bin $(STAGING_DIR_IMAGE)/$(BUILD_VARIANT)-idbloader.bin
-	$(CP) $(STAGING_DIR_IMAGE)/trust.bin $(STAGING_DIR_IMAGE)/$(BUILD_VARIANT)-trust.bin
 else
 	$(CP) $(PKG_BUILD_DIR)/idbloader.img $(STAGING_DIR_IMAGE)/$(BUILD_VARIANT)-idbloader.img
 	$(CP) $(PKG_BUILD_DIR)/u-boot.itb $(STAGING_DIR_IMAGE)/$(BUILD_VARIANT)-u-boot.itb
