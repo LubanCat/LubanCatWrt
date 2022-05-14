@@ -11,7 +11,7 @@ endef
 
 ### Image scripts ###
 define Build/boot-common
-	# This creates a new folder copies the dtb (as rockchip.dtb) 
+	# This creates a new folder copies the dtb (as rockchip.dtb)
 	# and the kernel image (as kernel.img)
 	rm -fR $@.boot
 	mkdir -p $@.boot
@@ -26,10 +26,10 @@ define Build/boot-script
 endef
 
 define Build/pine64-img
-	# Creates the final SD/eMMC images, 
+	# Creates the final SD/eMMC images,
 	# combining boot partition, root partition as well as the u-boot bootloader
 
-	# Generate a new partition table in $@ with 32 MiB of 
+	# Generate a new partition table in $@ with 32 MiB of
 	# alignment padding for the idbloader and u-boot to fit:
 	# http://opensource.rock-chips.com/wiki_Boot_option#Boot_flow
 	#
@@ -60,9 +60,9 @@ define Build/pine64-bin
 		32768
 
 	# Copy the idbloader, uboot and trust image to the image at sector 0x40, 0x4000 and 0x6000
-	dd if="$(STAGING_DIR_IMAGE)"/$(UBOOT_DEVICE_NAME)-idbloader.bin of="$@" seek=64 conv=notrunc
+	dd if="$(STAGING_DIR_IMAGE)"/$(SOC)-idbloader.bin of="$@" seek=64 conv=notrunc
 	dd if="$(STAGING_DIR_IMAGE)"/$(UBOOT_DEVICE_NAME)-uboot.img of="$@" seek=16384 conv=notrunc
-	dd if="$(STAGING_DIR_IMAGE)"/$(UBOOT_DEVICE_NAME)-trust.bin of="$@" seek=24576 conv=notrunc
+	dd if="$(STAGING_DIR_IMAGE)"/$(SOC)-trust.bin of="$@" seek=24576 conv=notrunc
 endef
 
 ### Devices ###
