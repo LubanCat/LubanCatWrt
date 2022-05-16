@@ -168,21 +168,49 @@ detect_mac80211() {
 			dev_id="set wireless.radio${devidx}.macaddr=$(cat /sys/class/ieee80211/${dev}/macaddress)"
 		fi
 
+		if [ -x /usr/bin/readlink -a -h /sys/class/ieee80211/${dev} ]; then
+			product=`cat $(readlink -f /sys/class/ieee80211/${dev}/device)/uevent | grep PRODUCT= | cut -d= -f 2`
+		else
+			product=""
+		fi
+
+		case "${product}" in
+		"bda/c811/200" | \
+		"bda/c820/200")
+			# 80211ac 5Ghz 433Mb
+			mode_band='5g'
+			htmode='VHT80'
+			channel='44'
+			# 80211n 2.4Ghz 150Mb
+			# mode_band='2g'
+			# htmode='HT40'
+			# channel='6'
+			;;
+
+		*)
+			country=""
+			;;
+
+		esac
+
+
 		uci -q batch <<-EOF
 			set wireless.radio${devidx}=wifi-device
 			set wireless.radio${devidx}.type=mac80211
 			${dev_id}
 			set wireless.radio${devidx}.channel=${channel}
 			set wireless.radio${devidx}.band=${mode_band}
-			set wireless.radio${devidx}.htmode=$htmode
+			set wireless.radio${devidx}.htmode=${htmode}
+			set wireless.radio${devidx}.country='RU'
 			set wireless.radio${devidx}.disabled=0
 
 			set wireless.default_radio${devidx}=wifi-iface
 			set wireless.default_radio${devidx}.device=radio${devidx}
 			set wireless.default_radio${devidx}.network=lan
 			set wireless.default_radio${devidx}.mode=ap
-			set wireless.default_radio${devidx}.ssid=OpenWrt
-			set wireless.default_radio${devidx}.encryption=none
+			set wireless.default_radio${devidx}.ssid=DoorNet-radio${devidx}
+			set wireless.default_radio${devidx}.encryption=psk2
+			set wireless.default_radio${devidx}.key=password
 EOF
 		uci -q commit wireless
 
