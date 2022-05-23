@@ -7,7 +7,7 @@ LubanCatWRT项目是 野火科技 鲁班猫系列开源板卡的配套项目，�
 #### 本项目交流群组
 
 - Twitter：https://twitter.com/luban_cat
-- Telegram：[t.me/LubanCatWrt](t.me/LubanCatWrt)
+- Telegram：https://t.me/LubanCatWrt
 - 鲁班猫DoorNet系列用户手册：https://doc.embedfire.com/openwrt/user_manal/zh/latest/index.html
 
 #### 联系方式
