@@ -3,7 +3,7 @@
 @@ -519,6 +519,11 @@ config MICROSEMI_PHY
  	---help---
  	  Currently supports VSC8514, VSC8530, VSC8531, VSC8540 and VSC8541 PHYs
- 
+
 +config MOTORCOMM_PHY
 +	tristate "Motorcomm PHYs"
 +	---help---
@@ -364,7 +364,7 @@
 +	else {
 +		link_utp = 0;
 +	}
-+ 
++
 + 	/* reading Fiber */
 +	ret = ytphy_write_ext(phydev, 0xa000, 2);
 +	if (ret < 0)
@@ -411,7 +411,7 @@
 + 	if (link_utp) {
 +		ytphy_write_ext(phydev, 0xa000, 0);
 +	}
-+ 
++
 +	return 0;
 +}
 +
@@ -516,7 +516,7 @@
 +		.config_init 	= yt8521_config_init,
 +		.read_status 	= yt8521_read_status,
 +		.suspend 	= yt8521_suspend,
-+		.resume 	= yt8521_resume,             
++		.resume 	= yt8521_resume,
 +		}, {
 +		/* same as 8511 */
 +		.phy_id 	= PHY_ID_YT8531,
@@ -526,7 +526,7 @@
 +		.config_init 	= genphy_config_init,
 +		.read_status 	= genphy_read_status,
 +		.suspend 	= genphy_suspend,
-+		.resume 	= genphy_resume,              
++		.resume 	= genphy_resume,
 +	}
 +};
 +
@@ -624,111 +624,6 @@
 +#define YT8521_LINK_STATUS_BIT		10
 +
 +#endif /* _MOTORCOMM_PHY_H */
---- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-@@ -112,6 +112,10 @@ static void stmmac_exit_fs(struct net_de
- 
- #define STMMAC_COAL_TIMER(x) (jiffies + usecs_to_jiffies(x))
- 
-+#define RTL_8211E_PHY_ID  0x001cc915
-+#define RTL_8211F_PHY_ID  0x001cc916
-+#define YT_8531C_PHY_ID   0x4f51e91b
-+
- /**
-  * stmmac_verify_args - verify the driver parameters.
-  * Description: it checks the driver parameters and set a default in case of
-@@ -4429,6 +4433,74 @@ static int stmmac_hw_init(struct stmmac_
- 	return 0;
- }
- 
-+static int phy_rtl8211e_led_fixup(struct phy_device *phydev)
-+{
-+        int val;
-+
-+        printk("%s in\n", __func__);
-+
-+        /*switch to extension page44*/
-+        phy_write(phydev, 31, 0x07);
-+        phy_write(phydev, 30, 0x2c);
-+
-+        /*set led1(yellow) act*/
-+        val = phy_read(phydev, 26);
-+        val &= (~(1<<4));// bit4=0
-+        val |= (1<<5);// bit5=1
-+        val &= (~(1<<6));// bit6=0
-+        phy_write(phydev, 26, val);
-+
-+        /*set led0(green) link*/
-+        val = phy_read(phydev, 28);
-+        val |= (7<<0);// bit0,1,2=1
-+        val &= (~(7<<4));// bit4,5,6=0
-+        val &= (~(7<<8));// bit8,9,10=0
-+        phy_write(phydev, 28, val);
-+
-+        /*switch back to page0*/
-+        phy_write(phydev,31,0x00);
-+
-+        return 0;
-+}
-+
-+static int phy_rtl8211f_led_fixup(struct phy_device *phydev)
-+{
-+        int val;
-+
-+        printk("%s in\n", __func__);
-+
-+        /*switch to extension page 0xd04*/
-+        phy_write(phydev, 31, 0xd04);
-+
-+
-+        /*set led1(yellow) act*/
-+        /*set led2(green) link*/
-+        val = 0xae00;
-+        phy_write(phydev, 16, val);
-+
-+        val = 0x0;
-+        phy_write(phydev, 17, val);
-+        /*switch back to page0*/
-+        phy_write(phydev,31,0x00);
-+
-+        return 0;
-+}
-+
-+static int phy_yt8531_led_fixup(struct phy_device *phydev)
-+{
-+        printk("%s in\n", __func__);
-+        phy_write(phydev, 0x1e, 0xa00d);
-+        phy_write(phydev, 0x1f, 0x670);
-+
-+        phy_write(phydev, 0x1e, 0xa00e);
-+        phy_write(phydev, 0x1f, 0x2070);
-+
-+        phy_write(phydev, 0x1e, 0xa00f);
-+        phy_write(phydev, 0x1f, 0x7e);
-+
-+        return 0;
-+}
-+
- /**
-  * stmmac_dvr_probe
-  * @device: device pointer
-@@ -4653,6 +4725,16 @@ int stmmac_dvr_probe(struct device *devi
- 		netdev_err(ndev, "failed to setup phy (%d)\n", ret);
- 		goto error_phy_setup;
- 	}
-+	/* register the PHY board fixup */
-+        ret = phy_register_fixup_for_uid(RTL_8211E_PHY_ID, 0xffffffff, phy_rtl8211e_led_fixup);
-+        if (ret)
-+                pr_warn("Cannot register PHY board fixup.\n");
-+        ret = phy_register_fixup_for_uid(RTL_8211F_PHY_ID, 0xffffffff, phy_rtl8211f_led_fixup);
-+        if (ret)
-+                pr_warn("Cannot register PHY board fixup.\n");
-+        ret = phy_register_fixup_for_uid(YT_8531C_PHY_ID, 0xffffffff, phy_yt8531_led_fixup);
-+        if (ret)
-+                pr_warn("Cannot register PHY board fixup.\n");
- 
- 	ret = register_netdev(ndev);
- 	if (ret) {
 --- a/drivers/net/phy/phy_device.c
 +++ b/drivers/net/phy/phy_device.c
 @@ -31,6 +31,7 @@
@@ -736,13 +631,13 @@
  #include <linux/io.h>
  #include <linux/uaccess.h>
 +#include <linux/motorcomm_phy.h>
- 
+
  MODULE_DESCRIPTION("PHY library");
  MODULE_AUTHOR("Andy Fleming");
 @@ -440,6 +441,33 @@ int phy_unregister_fixup_for_id(const ch
  }
  EXPORT_SYMBOL(phy_unregister_fixup_for_id);
- 
+
 +static int phy_mii_rd_ext(struct mii_bus *bus, int phy_id, u32 regnum)
 +{
 +	int ret;
@@ -776,7 +671,7 @@
 @@ -808,6 +836,50 @@ static int get_phy_id(struct mii_bus *bu
  	return 0;
  }
- 
+
 +int phy_set_out_125m(struct mii_bus* bus, int phy_id)
 +{
 +	int ret;
@@ -827,7 +722,7 @@
 @@ -831,6 +903,15 @@ struct phy_device *get_phy_device(struct
  	if (r)
  		return ERR_PTR(r);
- 
+
 +	if(phy_id == PHY_ID_YT8531)
 +	{
 +		r = phy_set_out_125m(bus, addr);
