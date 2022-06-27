@@ -30,4 +30,4 @@ git-src
 .cproject
 .ccache
 .vscode
-/linux-5.4.143
+/linux-5.4.*

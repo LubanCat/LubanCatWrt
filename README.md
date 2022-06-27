@@ -1,87 +1,64 @@
-![OpenWrt logo](include/logo.png)
+### 欢迎参与LubanCatWrt项目
 
-OpenWrt Project is a Linux operating system targeting embedded devices. Instead
-of trying to create a single, static firmware, OpenWrt provides a fully
-writable filesystem with package management. This frees you from the
-application selection and configuration provided by the vendor and allows you
-to customize the device through the use of packages to suit any application.
-For developers, OpenWrt is the framework to build an application without having
-to build a complete firmware around it; for users this means the ability for
-full customization, to use the device in ways never envisioned.
+LubanCatWRT项目是 野火科技 鲁班猫系列开源板卡的配套项目，以官方OpenWrt源码为基础，添加了一些优质的第三方软件包，同时着重对鲁班猫系列板卡进行适配支持和优化，以便玩家们可以更轻松，更高质量的玩转鲁班猫系列板卡。
 
-Sunshine!
+我们在秉承着**开源共享，共同进步**的理念，希望广大的开发者和玩家参与到我们的项目中来，与我们互动交流，共同进步。
 
-## Development
+#### 本项目交流群组
 
-To build your own firmware you need a GNU/Linux, BSD or MacOSX system (case
-sensitive filesystem required). Cygwin is unsupported because of the lack of a
-case sensitive file system.
+- Twitter：https://twitter.com/luban_cat
+- Telegram：https://t.me/LubanCatWrt
+- 鲁班猫DoorNet系列用户手册：https://doc.embedfire.com/openwrt/user_manal/zh/latest/index.html
 
-### Requirements
+#### 联系方式
 
-You need the following tools to compile OpenWrt, the package names vary between
-distributions. A complete list with distribution specific packages is found in
-the [Build System Setup](https://openwrt.org/docs/guide-developer/build-system/install-buildsystem)
-documentation.
+- 官网： [http://www.embedfire.com](http://www.embedfire.com/)
+- 论坛： [http://www.firebbs.cn](http://www.firebbs.cn/)
+- github主页：https://github.com/LubanCat
+- gitee主页： https://gitee.com/LubanCat
+- 淘宝： [https://yehuosm.tmall.com](https://yehuosm.tmall.com/)
+- 邮箱： [embedfire@embedfire.com](mailto:embedfire@embedfire.com)
+- 电话： 0769-33894118
 
-```
-sudo apt-get update
-sudo apt-get -y install build-essential asciidoc binutils bzip2 gawk gettext git libncurses5-dev libz-dev patch python3 python2.7 unzip zlib1g-dev lib32gcc1 libc6-dev-i386 subversion flex uglifyjs git-core gcc-multilib p7zip p7zip-full msmtp libssl-dev texinfo libglib2.0-dev xmlto qemu-utils upx libelf-dev autoconf automake libtool autopoint device-tree-compiler g++-multilib antlr3 gperf wget curl swig rsync aria2
-```
+### 注意事项
 
-### Quickstart
+- 默认登录IP：192.168.1.1 	密码：admin
+- 默认WIFI名 DoorNet-radioX    密码：password （仅WiFi版本）
 
-1. Run `./scripts/feeds update -a` to obtain all the latest package definitions
-   defined in feeds.conf / feeds.conf.default
+### 编译命令
 
-2. Run `./scripts/feeds install -a` to install symlinks for all obtained
-   packages into package/feeds/
+1. 使用Linux系统进行编译，推荐Ubuntu LTS
 
-3. Run `make menuconfig` to select your preferred configuration for the
-   toolchain, target system & firmware packages.
+2. 安装编译依赖
 
-4. Run `make` to build your firmware. This will download all sources, build the
-   cross-compile toolchain and then cross-compile the GNU/Linux kernel & all chosen
-   applications for your target system.
+   ```shell
+   sudo apt-get update
+   sudo apt-get -y install build-essential asciidoc binutils bzip2 gawk gettext git libncurses5-dev libz-dev patch python3 python2.7 unzip zlib1g-dev lib32gcc1 libc6-dev-i386 subversion flex uglifyjs git-core gcc-multilib p7zip p7zip-full msmtp libssl-dev texinfo libglib2.0-dev xmlto qemu-utils upx libelf-dev autoconf automake libtool autopoint device-tree-compiler g++-multilib antlr3 gperf wget curl swig rsync aria2
+   ```
 
-### Related Repositories
+3. 使用git拉取源码
 
-The main repository uses multiple sub-repositories to manage packages of
-different categories. All packages are installed via the OpenWrt package
-manager called `opkg`. If you're looking to develop the web interface or port
-packages to OpenWrt, please find the fitting repository below.
+   ```shell
+   # 进入用户目录
+   cd
 
-* [LuCI Web Interface](https://github.com/openwrt/luci): Modern and modular
-  interface to control the device via a web browser.
+   # 拉取源码
+   git clone https://github.com/LubanCat/LubanCatWrt.git
 
-* [OpenWrt Packages](https://github.com/openwrt/packages): Community repository
-  of ported packages.
+   # 进入拉取的源码目录下
+   cd LubanCatWrt
 
-* [OpenWrt Routing](https://github.com/openwrt/routing): Packages specifically
-  focused on (mesh) routing.
+   # 输入板卡对应的数字，更新feeds并下载软件包源码,应用所选板卡的配置文件
+   ./make_update.sh
 
-## Support Information
+   # 在板卡默认配置文件的基础上，添加自定义配置
+   make menuconfig
 
-For a list of supported devices see the [OpenWrt Hardware Database](https://openwrt.org/supported_devices)
+   # 首次编译建议使用单线程编译（-j后面是编译线程数）
+   make V=s -j1
 
-### Documentation
+   # 非首次编译（可指定线程数，$(nproc)：火力全开）
+   make V=s -j$(nproc)
+   ```
 
-* [Quick Start Guide](https://openwrt.org/docs/guide-quick-start/start)
-* [User Guide](https://openwrt.org/docs/guide-user/start)
-* [Developer Documentation](https://openwrt.org/docs/guide-developer/start)
-* [Technical Reference](https://openwrt.org/docs/techref/start)
-
-### Support Community
-
-* [Forum](https://forum.openwrt.org): For usage, projects, discussions and hardware advise.
-* [Support Chat](https://webchat.oftc.net/#openwrt): Channel `#openwrt` on **oftc.net**.
-
-### Developer Community
-
-* [Bug Reports](https://bugs.openwrt.org): Report bugs in OpenWrt
-* [Dev Mailing List](https://lists.openwrt.org/mailman/listinfo/openwrt-devel): Send patches
-* [Dev Chat](https://webchat.oftc.net/#openwrt-devel): Channel `#openwrt-devel` on **oftc.net**.
-
-## License
-
-OpenWrt is licensed under GPL-2.0
+4. 生成的固件路径：bin/targets/rockchip/armv8
