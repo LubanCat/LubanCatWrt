@@ -3,15 +3,15 @@
 @@ -109,6 +109,21 @@ config TARGET_ROC_PC_RK3399
  	   * wide voltage input(5V-15V), dual cell battery
  	   * Wifi/BT accessible via expansion board M.2
- 
+
 +config TARGET_DOORNET2_RK3399
 +	bool "EmbedFire DoorNet2 board"
 +	help
 +	  DoorNet2 is SBC produced by EmbedFire. Key features:
 +
 +	   * Rockchip RK3399
-+	   * 14GB Dual-Channel DDR3
-+	   * SD card slot
++	   * 1-4GB DDR3 or LPDDR4
++	   * SD card slot and 8-32GB eMMC
 +	   * Gigabit ethernet
 +	   * PCIe
 +	   * USB 3.0, 2.0
@@ -20,12 +20,12 @@
 +	   * USB 2.0 Wifi module
 +
  endchoice
- 
+
  config ROCKCHIP_BOOT_MODE_REG
 @@ -151,6 +166,7 @@ config SYS_BOOTCOUNT_ADDR
- 
+
  endif # BOOTCOUNT_LIMIT
- 
+
 +source "board/embedfire/doornet2/Kconfig"
  source "board/firefly/roc-pc-rk3399/Kconfig"
  source "board/google/gru/Kconfig"
@@ -301,8 +301,8 @@
 +/*
 + * Extended by ADC_IN4
 + *  0x06 - SOC-RK3399
-+ *  0x07 - SOC-RK3399 V2
-+ *  0x09 - DoorNet2 1GB
++ *  0x09 - DoorNet2 DDR3
++ *  0x0a - DoorNet2 LPDDR4
 + */
 +static int pcb_rev = -1;
 +
@@ -424,7 +424,7 @@
 +
 +	rk3399_saradc_set_clk(cru, 1000000);
  }
- 
+
  static int rk3399_clk_probe(struct udevice *dev)
 --- /dev/null
 +++ b/include/configs/doornet2.h
