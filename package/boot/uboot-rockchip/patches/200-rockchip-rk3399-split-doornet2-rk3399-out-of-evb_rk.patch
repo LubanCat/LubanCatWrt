@@ -59,7 +59,7 @@
 +
 --- /dev/null
 +++ b/board/embedfire/doornet2/doornet2.c
-@@ -0,0 +1,145 @@
+@@ -0,0 +1,146 @@
 +// SPDX-License-Identifier: GPL-2.0+
 +
 +#include <common.h>
@@ -80,6 +80,7 @@
 +#include <asm/io.h>
 +#include <asm/setup.h>
 +#include <u-boot/sha256.h>
++#include "hwrev.h"
 +
 +#ifdef CONFIG_MISC_INIT_R
 +static void setup_iodomain(void)
@@ -315,7 +316,7 @@
 +	struct udevice *dev;
 +
 +	if (uclass_get_device_by_driver(UCLASS_CLK,
-+				DM_GET_DRIVER(clk_rk3399), &dev))
++				DM_DRIVER_GET(clk_rk3399), &dev))
 +		return;
 +#endif
 +
@@ -417,7 +418,7 @@
 +
 --- a/drivers/clk/rockchip/clk_rk3399.c
 +++ b/drivers/clk/rockchip/clk_rk3399.c
-@@ -1370,6 +1370,8 @@ static void rkclk_init(struct rockchip_c
+@@ -1372,6 +1372,8 @@ static void rkclk_init(struct rockchip_c
  		     pclk_div << PCLK_PERILP1_DIV_CON_SHIFT |
  		     hclk_div << HCLK_PERILP1_DIV_CON_SHIFT |
  		     HCLK_PERILP1_PLL_SEL_GPLL << HCLK_PERILP1_PLL_SEL_SHIFT);
