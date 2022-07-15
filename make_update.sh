@@ -41,7 +41,7 @@ echo 'DEVICE_CFG =' $DEVICE_CFG
 echo '**************begining update and install feeds************'
 #更新升级软件包列表
 ./scripts/feeds update -a
-./scripts/feeds install -a
+./scripts/feeds install -a -f
 
 
 echo '**************application' ${DEVICE_NAME} 'defconfig***************'
