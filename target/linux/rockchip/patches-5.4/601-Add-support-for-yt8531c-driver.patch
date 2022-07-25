@@ -3,7 +3,7 @@
 @@ -519,6 +519,11 @@ config MICROSEMI_PHY
  	---help---
  	  Currently supports VSC8514, VSC8530, VSC8531, VSC8540 and VSC8541 PHYs
-
+ 
 +config MOTORCOMM_PHY
 +	tristate "Motorcomm PHYs"
 +	---help---
@@ -631,13 +631,13 @@
  #include <linux/io.h>
  #include <linux/uaccess.h>
 +#include <linux/motorcomm_phy.h>
-
+ 
  MODULE_DESCRIPTION("PHY library");
  MODULE_AUTHOR("Andy Fleming");
 @@ -440,6 +441,33 @@ int phy_unregister_fixup_for_id(const ch
  }
  EXPORT_SYMBOL(phy_unregister_fixup_for_id);
-
+ 
 +static int phy_mii_rd_ext(struct mii_bus *bus, int phy_id, u32 regnum)
 +{
 +	int ret;
@@ -671,7 +671,7 @@
 @@ -808,6 +836,50 @@ static int get_phy_id(struct mii_bus *bu
  	return 0;
  }
-
+ 
 +int phy_set_out_125m(struct mii_bus* bus, int phy_id)
 +{
 +	int ret;
@@ -722,7 +722,7 @@
 @@ -831,6 +903,15 @@ struct phy_device *get_phy_device(struct
  	if (r)
  		return ERR_PTR(r);
-
+ 
 +	if(phy_id == PHY_ID_YT8531)
 +	{
 +		r = phy_set_out_125m(bus, addr);

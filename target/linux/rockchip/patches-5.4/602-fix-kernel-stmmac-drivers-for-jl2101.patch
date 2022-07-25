@@ -1,6 +1,6 @@
 --- a/drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c
 +++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c
-@@ -363,6 +363,11 @@ int stmmac_mdio_register(struct net_device *ndev)
+@@ -363,6 +363,11 @@ int stmmac_mdio_register(struct net_devi
  		goto bus_register_fail;
  	}
  
@@ -14,7 +14,7 @@
  
 --- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
 +++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-@@ -2189,6 +2189,8 @@ static int stmmac_init_dma_engine(struct
+@@ -2187,6 +2187,8 @@ static int stmmac_init_dma_engine(struct
  	if (priv->extend_desc && (priv->mode == STMMAC_RING_MODE))
  		atds = 1;
  

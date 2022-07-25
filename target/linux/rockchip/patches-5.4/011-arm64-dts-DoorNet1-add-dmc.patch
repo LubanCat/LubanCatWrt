@@ -131,7 +131,7 @@
  				regulator-max-microvolt = <1450000>;
  				regulator-ramp-delay = <12500>;
 @@ -419,3 +521,4 @@
- 		realtek,led-data = <0x87>;
+ 		realtek,led-data = <0x7f0>;
  	};
  };
 +
