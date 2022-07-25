@@ -1,9 +1,3 @@
-#用于同步OpenWrt 官方feeds软件源的gitee仓库，加速国内用户访问
-#src-git packages https://gitee.com/LubanCat/openwrt-feeds-packages.git;v21.02.0
-#src-git luci https://gitee.com/LubanCat/openwrt-feeds-luci.git;v21.02.0
-#src-git routing https://gitee.com/LubanCat/openwrt-feeds-routing.git;v21.02.0
-#src-git telephony https://gitee.com/LubanCat/openwrt-feeds-telephony.git;v21.02.0
-
 #OpenWrt 官方feeds软件源
 src-git packages https://git.openwrt.org/feed/packages.git;openwrt-21.02
 src-git luci https://git.openwrt.org/project/luci.git;openwrt-21.02
