@@ -1,7 +1,5 @@
-Index: linux-5.4.105/arch/arm64/boot/dts/rockchip/Makefile
-===================================================================
---- linux-5.4.105.orig/arch/arm64/boot/dts/rockchip/Makefile
-+++ linux-5.4.105/arch/arm64/boot/dts/rockchip/Makefile
+--- a/arch/arm64/boot/dts/rockchip/Makefile
++++ b/arch/arm64/boot/dts/rockchip/Makefile
 @@ -4,6 +4,7 @@ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3328-ev
  dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3328-nanopi-r2s.dtb
  dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3328-rock64.dtb
@@ -10,10 +8,8 @@ Index: linux-5.4.105/arch/arm64/boot/dts/rockchip/Makefile
  dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3368-evb-act8846.dtb
  dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3368-geekbox.dtb
  dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3368-lion-haikou.dtb
-Index: linux-5.4.105/arch/arm64/boot/dts/rockchip/rk3328-doornet1.dts
-===================================================================
 --- /dev/null
-+++ linux-5.4.105/arch/arm64/boot/dts/rockchip/rk3328-doornet1.dts
++++ b/arch/arm64/boot/dts/rockchip/rk3328-doornet1.dts
 @@ -0,0 +1,412 @@
 +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
 +/*
