@@ -56,7 +56,7 @@ LubanCatWRT项目是 野火科技 鲁班猫系列开源板卡的配套项目，�
    # 输入板卡对应的数字，更新feeds并下载软件包源码,应用所选板卡的配置文件
    ./make_update.sh
 
-   注意：如果Download下载失败，请安装Aria2，执行命令下载 `` sudo apt install aria2 ``
+   注意：如果Download下载失败，请安装Aria2，执行命令下载 sudo apt install aria2
 
    # 在板卡默认配置文件的基础上，添加自定义配置
    make menuconfig
