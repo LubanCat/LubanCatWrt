@@ -1,9 +1,9 @@
 --- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
 +++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-@@ -112,6 +112,11 @@ static void stmmac_exit_fs(struct net_device *dev);
-
+@@ -112,6 +112,11 @@ static void stmmac_exit_fs(struct net_de
+ 
  #define STMMAC_COAL_TIMER(x) (jiffies + usecs_to_jiffies(x))
-
+ 
 +#define RTL_8211E_PHY_ID  0x001cc915
 +#define RTL_8211F_PHY_ID  0x001cc916
 +#define YT_8531C_PHY_ID   0x4f51e91b
@@ -12,10 +12,10 @@
  /**
   * stmmac_verify_args - verify the driver parameters.
   * Description: it checks the driver parameters and set a default in case of
-@@ -4433,6 +4438,95 @@ static int stmmac_hw_init(struct stmmac_priv *priv)
+@@ -4433,6 +4438,95 @@ static int stmmac_hw_init(struct stmmac_
  	return 0;
  }
-
+ 
 +static int phy_rtl8211e_led_fixup(struct phy_device *phydev)
 +{
 +        int val;
@@ -108,7 +108,7 @@
  /**
   * stmmac_dvr_probe
   * @device: device pointer
-@@ -4657,6 +4751,20 @@ int stmmac_dvr_probe(struct device *device,
+@@ -4657,6 +4751,20 @@ int stmmac_dvr_probe(struct device *devi
  		netdev_err(ndev, "failed to setup phy (%d)\n", ret);
  		goto error_phy_setup;
  	}
@@ -126,6 +126,6 @@
 +        if (ret)
 +                pr_warn("Cannot register PHY board fixup.\n");
 +
-
+ 
  	ret = register_netdev(ndev);
  	if (ret) {
