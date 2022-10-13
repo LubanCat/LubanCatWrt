@@ -24,6 +24,8 @@ my $scriptdir = dirname($0);
 my @mirrors;
 my $ok;
 
+my $check_certificate = $ENV{DOWNLOAD_CHECK_CERTIFICATE} eq "y";
+
 $url_filename or $url_filename = $filename;
 
 sub localmirrors {
