@@ -1,0 +1,21 @@
+--- a/arch/arm/dts/Makefile
++++ b/arch/arm/dts/Makefile
+@@ -96,6 +96,17 @@ dtb-$(CONFIG_ROCKCHIP_RK3368) += \
+ 	rk3368-geekbox.dtb \
+ 	rk3368-px5-evb.dtb \
+ 
++dtb-$(CONFIG_ROCKCHIP_RK3568) += \
++	rk3566-lubancat-zero-n.dtb \
++	rk3566-lubancat-1.dtb \
++	rk3566-lubancat-1n.dtb \
++	rk3568-lubancat-2.dtb \
++	rk3568-lubancat-2n.dtb \
++	rk3568-lubancat-2io.dtb \
++
++dtb-$(CONFIG_ROCKCHIP_RK3588) += \
++	rk3588-lubancat-4.dtb
++
+ dtb-$(CONFIG_ARCH_S5P4418) += \
+ 	s5p4418-nanopi2.dtb
+
+
