@@ -18,6 +18,8 @@
 	aliases {
 		ethernet0 = &gmac0;
 		ethernet1 = &gmac1;
+		ethernet2 = &rtl8125_1;
+		ethernet3 = &rtl8125_2;
 		mmc0 = &sdmmc0;
 		mmc1 = &sdhci;
 	};
@@ -487,8 +489,8 @@
              &gmac0_rgmii_clk
              &gmac0_rgmii_bus>;
 
-	tx_delay = <0x19>;
-	rx_delay = <0x0c>;
+	tx_delay = <0x02>;
+	rx_delay = <0x02>;
 
     phy-handle = <&rgmii_phy0>;
     status = "okay";
@@ -541,17 +543,38 @@
 };
 
 &pcie3x1 {
-	num-lanes = <1>;
+	rockchip,bifurcation;
 	reset-gpios = <&gpio2 RK_PD5 GPIO_ACTIVE_HIGH>;
 	vpcie3v3-supply = <&vcc3v3_pcie>;
 	status = "okay";
+
+	pcie@0,0 {
+		reg = <0x00100000 0 0 0 0>;
+		#address-cells = <3>;
+		#size-cells = <2>;
+
+		rtl8125_1: pcie@10,0 {
+			reg = <0x000000 0 0 0 0>;
+		};
+	};
 };
 
 &pcie3x2 {
-	num-lanes = <1>;
+	rockchip,bifurcation;
+	rockchip,init-delay-ms = <100>;
 	reset-gpios = <&gpio2 RK_PD4 GPIO_ACTIVE_HIGH>;
 	vpcie3v3-supply = <&vcc3v3_pcie>;
 	status = "okay";
+
+	pcie@0,0 {
+		reg = <0x00200000 0 0 0 0>;
+		#address-cells = <3>;
+		#size-cells = <2>;
+
+		rtl8125_2: pcie@20,0 {
+			reg = <0x000000 0 0 0 0>;
+		};
+	};
 };
 
 &pcie2x1 {
