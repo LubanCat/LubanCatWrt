@@ -189,6 +189,27 @@ define U-Boot/rock-3c-rk3566
     radxa_rock-3c
 endef
 
+define U-Boot/lubancat-1-rk3566
+  $(U-Boot/rk3566/Default)
+  NAME:=LubanCan-1
+  BUILD_DEVICES:= \
+    embedfire_lubancat-1
+endef
+
+define U-Boot/lubancat-1n-rk3566
+  $(U-Boot/rk3566/Default)
+  NAME:=LubanCan-1N
+  BUILD_DEVICES:= \
+    embedfire_lubancat-1n
+endef
+
+define U-Boot/lubancat-zero-n-rk3566
+  $(U-Boot/rk3566/Default)
+  NAME:=LubanCan-Zero-N
+  BUILD_DEVICES:= \
+    embedfire_lubancat-zero-n
+endef
+
 # RK3568 boards
 
 define U-Boot/rk3568/Default
@@ -242,6 +263,26 @@ define U-Boot/rock-3b-rk3568
     radxa_rock-3b
 endef
 
+define U-Boot/lubancat-2-rk3568
+  $(U-Boot/rk3568/Default)
+  NAME:=LubanCat-2
+  BUILD_DEVICES:= \
+    embedfire_lubancat-2
+endef
+
+define U-Boot/lubancat-2n-rk3568
+  $(U-Boot/rk3568/Default)
+  NAME:=LubanCat-2N
+  BUILD_DEVICES:= \
+    embedfire_lubancat-2n
+endef
+
+define U-Boot/lubancat-2io-rk3568
+  $(U-Boot/rk3568/Default)
+  NAME:=LubanCat-2IO
+  BUILD_DEVICES:= \
+    embedfire_lubancat-2io
+endef
 
 # RK3588 boards
 
@@ -266,6 +307,20 @@ define U-Boot/rock5b-rk3588
     radxa_rock-5b
 endef
 
+define U-Boot/lubancat-5-rk3588
+  $(U-Boot/rk3588/Default)
+  NAME:=lubancat-5
+  BUILD_DEVICES:= \
+    embedfire_lubancat-5
+endef
+
+define U-Boot/lubancat-5io-rk3588
+  $(U-Boot/rk3588/Default)
+  NAME:=lubancat-5io
+  BUILD_DEVICES:= \
+    embedfire_lubancat-5io
+endef
+
 define U-Boot/sige7-rk3588
   $(U-Boot/rk3588/Default)
   NAME:=Sige7
@@ -275,6 +330,13 @@ endef
 
 
 # RK3588S boards
+
+define U-Boot/lubancat-4-rk3588s
+  $(U-Boot/rk3588/Default)
+  NAME:=lubancat-4
+  BUILD_DEVICES:= \
+    embedfire_lubancat-4
+endef
 
 define U-Boot/nanopi-r6c-rk3588s
   $(U-Boot/rk3588/Default)
@@ -327,7 +389,16 @@ UBOOT_TARGETS := \
   sige7-rk3588 \
   nanopi-r6c-rk3588s \
   nanopi-r6s-rk3588s \
-  rock5a-rk3588s
+  rock5a-rk3588s \
+  lubancat-5-rk3588 \
+  lubancat-5io-rk3588 \
+  lubancat-4-rk3588s \
+  lubancat-zero-n-rk3566 \
+  lubancat-1-rk3566 \
+  lubancat-1n-rk3566 \
+  lubancat-2-rk3568 \
+  lubancat-2n-rk3568 \
+  lubancat-2io-rk3568
 
 UBOOT_CONFIGURE_VARS += USE_PRIVATE_LIBGCC=yes
 

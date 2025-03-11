@@ -8,6 +8,10 @@ rockchip_setup_interfaces()
 
 	case "$board" in
 	armsom,sige7|\
+	embedfire,lubancat-5|\
+	embedfire,lubancat1n|\
+	embedfire,lubancat2|\
+	embedfire,lubancat2io|\
 	friendlyarm,nanopi-r2c|\
 	friendlyarm,nanopi-r2c-plus|\
 	friendlyarm,nanopi-r2s|\
@@ -35,6 +39,9 @@ rockchip_setup_interfaces()
 	sinovoip,rk3568-bpi-r2pro)
 		ucidef_set_interfaces_lan_wan 'lan0 lan1 lan2 lan3' 'eth0'
 		;;
+	embedfire,lubancat2n)
+		ucidef_set_interfaces_lan_wan "eth1 eth2 eth3" "eth0"
+		;;
 	*)
 		ucidef_set_interface_lan 'eth0'
 		;;
@@ -50,19 +57,14 @@ rockchip_setup_macs()
 
 	case "$board" in
 	armsom,sige7|\
-	friendlyarm,nanopc-t6|\
-	friendlyarm,nanopi-r2c|\
-	friendlyarm,nanopi-r2s)
-		wan_mac=$(macaddr_generate_from_mmc_cid mmcblk0)
-		lan_mac=$(macaddr_add "$wan_mac" 1)
-		;;
-	friendlyarm,nanopi-r2c-plus|\
-	friendlyarm,nanopi-r4s|\
-	friendlyarm,nanopi-r5s|\
-	sinovoip,rk3568-bpi-r2pro)
-		wan_mac=$(macaddr_generate_from_mmc_cid mmcblk1)
-		lan_mac=$(macaddr_add "$wan_mac" 1)
-		;;
+	embedfire,lubancat-5|\
+	embedfire,lubancat-4|\
+	embedfire,lubancat1|\
+	embedfire,lubancat-zero-n|\
+	embedfire,lubancat1n|\
+	embedfire,lubancat2|\
+	embedfire,lubancat2n|\
+	embedfire,lubancat2io|\
 	friendlyarm,nanopi-r3s|\
 	friendlyarm,nanopi-r5c|\
 	friendlyarm,nanopi-r6c|\

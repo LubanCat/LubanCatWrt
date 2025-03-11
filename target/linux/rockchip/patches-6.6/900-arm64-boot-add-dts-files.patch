@@ -1,0 +1,26 @@
+From 1ff6ca57c3475611753caeb9994a38fcda8fa564 Mon Sep 17 00:00:00 2001
+From: DHDAXCW <lasstp5011@gmail.com>
+Date: Mon, 10 Mar 2025 09:57:45 +0800
+Subject: [PATCH] wode
+
+---
+ arch/arm64/boot/dts/rockchip/Makefile | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/rockchip/Makefile b/arch/arm64/boot/dts/rockchip/Makefile
+index a09f5200f..a8172a00d 100644
+--- a/arch/arm64/boot/dts/rockchip/Makefile
++++ b/arch/arm64/boot/dts/rockchip/Makefile
+@@ -114,3 +114,9 @@ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3588s-khadas-edge2.dtb
+ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3588s-nanopi-r6s.dtb
+ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3588s-nanopi-r6c.dtb
+ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3588s-rock-5a.dtb
++dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3588-lubancat-5.dtb
++dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3588s-lubancat-4.dtb
++dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3566-lubancat-1n.dtb
++dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3566-lubancat-zero-n.dtb
++dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3568-lubancat-2n.dtb
++dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3568-lubancat-2io.dtb
+-- 
+2.34.1
+

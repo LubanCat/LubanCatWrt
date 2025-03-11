@@ -30,6 +30,10 @@ set_interface_core() {
 
 case "$(board_name)" in
 armsom,sige7|\
+embedfire,lubancat-5|\
+embedfire,lubancat1n|\
+embedfire,lubancat2|\
+embedfire,lubancat2io|\
 friendlyarm,nanopc-t6|\
 friendlyarm,nanopi-r3s|\
 friendlyarm,nanopi-r5c|\
@@ -58,6 +62,16 @@ friendlyarm,nanopi-r6s)
 	set_interface_core 2 "eth0"
 	set_interface_core 4 "eth1"
 	set_interface_core 8 "eth2"
+	;;
+embedfire,lubancat2n)
+	set_interface_core 0 "eth0"
+	set_interface_core 1 "eth1"
+	set_interface_core 2 "eth2-0"
+	set_interface_core 2 "eth2-16"
+	set_interface_core 1 "eth2-18"
+	set_interface_core 3 "eth3-0"
+	set_interface_core 3 "eth3-18"
+	set_interface_core 1 "eth3-16"
 	;;
 esac
 
