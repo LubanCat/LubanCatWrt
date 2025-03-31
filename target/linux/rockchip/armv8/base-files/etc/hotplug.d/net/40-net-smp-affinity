@@ -31,6 +31,7 @@ set_interface_core() {
 case "$(board_name)" in
 armsom,sige7|\
 embedfire,lubancat-5|\
+embedfire,lubancat-5io|\
 embedfire,lubancat1n|\
 embedfire,lubancat2|\
 embedfire,lubancat2io|\

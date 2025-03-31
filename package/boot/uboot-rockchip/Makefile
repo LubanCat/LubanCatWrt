@@ -316,7 +316,7 @@ endef
 
 define U-Boot/lubancat-5io-rk3588
   $(U-Boot/rk3588/Default)
-  NAME:=lubancat-5io
+  NAME:=lubancat-5IO
   BUILD_DEVICES:= \
     embedfire_lubancat-5io
 endef

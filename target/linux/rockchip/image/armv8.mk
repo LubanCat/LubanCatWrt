@@ -61,6 +61,14 @@ define Device/embedfire_lubancat-5
 endef
 TARGET_DEVICES += embedfire_lubancat-5
 
+define Device/embedfire_lubancat-5io
+  DEVICE_VENDOR := EmbedFire
+  DEVICE_MODEL := LubanCat 5IO
+  SOC := rk3588
+  DEVICE_PACKAGES := kmod-r8125 kmod-ata-ahci-dwc
+endef
+TARGET_DEVICES += embedfire_lubancat-5io
+
 define Device/embedfire_lubancat-4
   DEVICE_VENDOR := EmbedFire
   DEVICE_MODEL := LubanCat 4
