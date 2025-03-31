@@ -159,7 +159,9 @@
 		regulator-name = "vbus_typec";
 		regulator-min-microvolt = <5000000>;
 		regulator-max-microvolt = <5000000>;
+		regulator-always-on;
 		enable-active-high;
+		regulator-boot-on;
 		gpio = <&gpio2 RK_PB5 GPIO_ACTIVE_HIGH>;
 		vin-supply = <&vcc5v0_usb>;
 		pinctrl-names = "default";
@@ -931,9 +933,9 @@
 	};
 };
 
-/* USB3.1 OTG0 Controller  */
+/* USB3.0 OTG0 Controller  */
 &usb_host0_xhci {
-	dr_mode = "otg";
+	dr_mode = "host";
 	usb-role-switch;
 	
 	status = "okay";
