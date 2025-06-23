@@ -804,15 +804,18 @@
 };
 
 &sdmmc {
+    max-frequency = <200000000>;
+    no-sdio;
+    no-mmc;
     bus-width = <4>;
     cap-mmc-highspeed;
     cap-sd-highspeed;
     disable-wp;
-    no-mmc;
-    no-sdio;
-    max-frequency = <50000000>;
+    sd-uhs-sdr104;
     vmmc-supply = <&vcc_3v3_s3>;
     vqmmc-supply = <&vccio_sd_s0>;
+    pinctrl-names = "default";
+    pinctrl-0 = <&sdmmc_bus4 &sdmmc_clk &sdmmc_cmd &sdmmc_det>;
     status = "okay";
 };
 
