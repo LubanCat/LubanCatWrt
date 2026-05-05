@@ -201,7 +201,7 @@ Signed-off-by: Jose Maria Casanova Crespo <jmcasanova@igalia.com>
  /* Performance monitor object. The perform lifetime is controlled by userspace
   * using perfmon related ioctls. A perfmon can be attached to a submit_cl
   * request, and when this is the case, HW perf counters will be activated just
-@@ -147,6 +198,8 @@ struct v3d_dev {
+@@ -155,6 +206,8 @@ struct v3d_dev {
  		u32 num_allocated;
  		u32 pages_allocated;
  	} bo_stats;
@@ -210,7 +210,7 @@ Signed-off-by: Jose Maria Casanova Crespo <jmcasanova@igalia.com>
  };
  
  static inline struct v3d_dev *
-@@ -244,6 +297,11 @@ struct v3d_job {
+@@ -252,6 +305,11 @@ struct v3d_job {
  	 */
  	struct v3d_perfmon *perfmon;
  
@@ -222,7 +222,7 @@ Signed-off-by: Jose Maria Casanova Crespo <jmcasanova@igalia.com>
  	/* Callback for the freeing of the job on refcount going to 0. */
  	void (*free)(struct kref *ref);
  };
-@@ -408,6 +466,7 @@ void v3d_mmu_remove_ptes(struct v3d_bo *
+@@ -416,6 +474,7 @@ void v3d_mmu_remove_ptes(struct v3d_bo *
  /* v3d_sched.c */
  int v3d_sched_init(struct v3d_dev *v3d);
  void v3d_sched_fini(struct v3d_dev *v3d);
@@ -232,7 +232,7 @@ Signed-off-by: Jose Maria Casanova Crespo <jmcasanova@igalia.com>
  void v3d_perfmon_get(struct v3d_perfmon *perfmon);
 --- a/drivers/gpu/drm/v3d/v3d_gem.c
 +++ b/drivers/gpu/drm/v3d/v3d_gem.c
-@@ -460,6 +460,7 @@ v3d_job_init(struct v3d_dev *v3d, struct
+@@ -462,6 +462,7 @@ v3d_job_init(struct v3d_dev *v3d, struct
  	job = *container;
  	job->v3d = v3d;
  	job->free = free;
@@ -423,7 +423,7 @@ Signed-off-by: Jose Maria Casanova Crespo <jmcasanova@igalia.com>
  	v3d_switch_perfmon(v3d, &job->base);
  
  	/* XXX: Set the QCFG */
-@@ -190,6 +301,7 @@ v3d_tfu_job_run(struct drm_sched_job *sc
+@@ -194,6 +305,7 @@ v3d_tfu_job_run(struct drm_sched_job *sc
  
  	trace_v3d_submit_tfu(dev, to_v3d_fence(fence)->seqno);
  
@@ -431,7 +431,7 @@ Signed-off-by: Jose Maria Casanova Crespo <jmcasanova@igalia.com>
  	V3D_WRITE(V3D_TFU_IIA, job->args.iia);
  	V3D_WRITE(V3D_TFU_IIS, job->args.iis);
  	V3D_WRITE(V3D_TFU_ICA, job->args.ica);
-@@ -231,6 +343,7 @@ v3d_csd_job_run(struct drm_sched_job *sc
+@@ -238,6 +350,7 @@ v3d_csd_job_run(struct drm_sched_job *sc
  
  	trace_v3d_submit_csd(dev, to_v3d_fence(fence)->seqno);
  
@@ -439,7 +439,7 @@ Signed-off-by: Jose Maria Casanova Crespo <jmcasanova@igalia.com>
  	v3d_switch_perfmon(v3d, &job->base);
  
  	for (i = 1; i <= 6; i++)
-@@ -247,7 +360,10 @@ v3d_cache_clean_job_run(struct drm_sched
+@@ -254,7 +367,10 @@ v3d_cache_clean_job_run(struct drm_sched
  	struct v3d_job *job = to_v3d_job(sched_job);
  	struct v3d_dev *v3d = job->v3d;
  
@@ -450,7 +450,7 @@ Signed-off-by: Jose Maria Casanova Crespo <jmcasanova@igalia.com>
  
  	return NULL;
  }
-@@ -385,8 +501,18 @@ v3d_sched_init(struct v3d_dev *v3d)
+@@ -406,8 +522,18 @@ v3d_sched_init(struct v3d_dev *v3d)
  	int hw_jobs_limit = 1;
  	int job_hang_limit = 0;
  	int hang_limit_ms = 500;
@@ -469,7 +469,7 @@ Signed-off-by: Jose Maria Casanova Crespo <jmcasanova@igalia.com>
  	ret = drm_sched_init(&v3d->queue[V3D_BIN].sched,
  			     &v3d_bin_sched_ops,
  			     hw_jobs_limit, job_hang_limit,
-@@ -440,9 +566,20 @@ void
+@@ -461,9 +587,20 @@ void
  v3d_sched_fini(struct v3d_dev *v3d)
  {
  	enum v3d_queue q;

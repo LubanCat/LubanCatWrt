@@ -433,53 +433,29 @@ static void rtl839x_l2_notification_handler(struct rtl838x_eth_priv *priv)
 
 static irqreturn_t rtl83xx_net_irq(int irq, void *dev_id)
 {
-	struct net_device *dev = dev_id;
-	struct rtl838x_eth_priv *priv = netdev_priv(dev);
+	struct net_device *ndev = dev_id;
+	struct rtl838x_eth_priv *priv = netdev_priv(ndev);
 	u32 status = sw_r32(priv->r->dma_if_intr_sts);
+	unsigned long ring, rings;
 
-	pr_debug("IRQ: %08x\n", status);
+	netdev_dbg(ndev, "rx interrupt received, status %08x\n", status);
 
-	/*  Ignore TX interrupt */
-	if ((status & 0xf0000)) {
-		/* Clear ISR */
-		sw_w32(0x000f0000, priv->r->dma_if_intr_sts);
+	if (status & RTL83XX_DMA_IF_INTR_RX_RUN_OUT_MASK)
+		if (net_ratelimit())
+			netdev_warn(ndev, "rx ring overrun, status 0x%08x, mask 0x%08x\n",
+				    status, sw_r32(priv->r->dma_if_intr_msk));
+
+	rings = FIELD_GET(RTL83XX_DMA_IF_INTR_RX_DONE_MASK, status);
+	for_each_set_bit(ring, &rings, priv->rxrings) {
+		netdev_dbg(ndev, "schedule rx ring %lu\n", ring);
+		sw_w32_mask(RTL83XX_DMA_IF_INTR_RX_MASK(ring), 0, priv->r->dma_if_intr_msk);
+		napi_schedule(&priv->rx_qs[ring].napi);
 	}
 
-	/* RX interrupt */
-	if (status & 0x0ff00) {
-		/* ACK and disable RX interrupt for this ring */
-		sw_w32_mask(0xff00 & status, 0, priv->r->dma_if_intr_msk);
-		sw_w32(0x0000ff00 & status, priv->r->dma_if_intr_sts);
-		for (int i = 0; i < priv->rxrings; i++) {
-			if (status & BIT(i + 8)) {
-				pr_debug("Scheduling queue: %d\n", i);
-				napi_schedule(&priv->rx_qs[i].napi);
-			}
-		}
-	}
-
-	/* RX buffer overrun */
-	if (status & 0x000ff) {
-		pr_debug("RX buffer overrun: status %x, mask: %x\n",
-			 status, sw_r32(priv->r->dma_if_intr_msk));
-		sw_w32(status, priv->r->dma_if_intr_sts);
-		rtl838x_rb_cleanup(priv, status & 0xff);
-	}
-
-	if (priv->family_id == RTL8390_FAMILY_ID && status & 0x00100000) {
-		sw_w32(0x00100000, priv->r->dma_if_intr_sts);
+	if (status & RTL839X_DMA_IF_INTR_NOTIFY_MASK)
 		rtl839x_l2_notification_handler(priv);
-	}
 
-	if (priv->family_id == RTL8390_FAMILY_ID && status & 0x00200000) {
-		sw_w32(0x00200000, priv->r->dma_if_intr_sts);
-		rtl839x_l2_notification_handler(priv);
-	}
-
-	if (priv->family_id == RTL8390_FAMILY_ID && status & 0x00400000) {
-		sw_w32(0x00400000, priv->r->dma_if_intr_sts);
-		rtl839x_l2_notification_handler(priv);
-	}
+	sw_w32(status, priv->r->dma_if_intr_sts);
 
 	return IRQ_HANDLED;
 }
@@ -1358,25 +1334,22 @@ static int rtl838x_poll_rx(struct napi_struct *napi, int budget)
 {
 	struct rtl838x_rx_q *rx_q = container_of(napi, struct rtl838x_rx_q, napi);
 	struct rtl838x_eth_priv *priv = rx_q->priv;
+	int ring = rx_q->id;
 	int work_done = 0;
-	int r = rx_q->id;
-	int work;
 
 	while (work_done < budget) {
-		work = rtl838x_hw_receive(priv->netdev, r, budget - work_done);
+		int work = rtl838x_hw_receive(priv->netdev, ring, budget - work_done);
 		if (!work)
 			break;
 		work_done += work;
 	}
 
-	if (work_done < budget) {
-		napi_complete_done(napi, work_done);
-
-		/* Enable RX interrupt */
+	if (work_done < budget && napi_complete_done(napi, work_done)) {
+		/* Re-enable rx interrupts */
 		if (priv->family_id == RTL9300_FAMILY_ID || priv->family_id == RTL9310_FAMILY_ID)
 			sw_w32(0xffffffff, priv->r->dma_if_intr_rx_done_msk);
 		else
-			sw_w32_mask(0, 0xf00ff | BIT(r + 8), priv->r->dma_if_intr_msk);
+			sw_w32_mask(0, RTL83XX_DMA_IF_INTR_RX_MASK(ring), priv->r->dma_if_intr_msk);
 	}
 
 	return work_done;

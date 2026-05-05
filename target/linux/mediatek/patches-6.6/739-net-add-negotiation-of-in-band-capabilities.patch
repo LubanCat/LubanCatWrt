@@ -826,7 +826,7 @@ publishing the in-band capabilities from the BCM84881 PHY driver.
   *
 --- a/include/linux/phy.h
 +++ b/include/linux/phy.h
-@@ -800,6 +800,24 @@ struct phy_tdr_config {
+@@ -797,6 +797,24 @@ struct phy_tdr_config {
  #define PHY_PAIR_ALL -1
  
  /**
@@ -851,7 +851,7 @@ publishing the in-band capabilities from the BCM84881 PHY driver.
   * struct phy_plca_cfg - Configuration of the PLCA (Physical Layer Collision
   * Avoidance) Reconciliation Sublayer.
   *
-@@ -939,6 +957,19 @@ struct phy_driver {
+@@ -936,6 +954,19 @@ struct phy_driver {
  	int (*get_features)(struct phy_device *phydev);
  
  	/**
@@ -871,7 +871,7 @@ publishing the in-band capabilities from the BCM84881 PHY driver.
  	 * @get_rate_matching: Get the supported type of rate matching for a
  	 * particular phy interface. This is used by phy consumers to determine
  	 * whether to advertise lower-speed modes for that interface. It is
-@@ -1774,6 +1805,9 @@ void phy_stop(struct phy_device *phydev)
+@@ -1771,6 +1802,9 @@ void phy_stop(struct phy_device *phydev)
  int phy_config_aneg(struct phy_device *phydev);
  int phy_start_aneg(struct phy_device *phydev);
  int phy_aneg_done(struct phy_device *phydev);
@@ -956,7 +956,7 @@ publishing the in-band capabilities from the BCM84881 PHY driver.
  static int m88e1111_config_aneg(struct phy_device *phydev)
  {
  	int extsr = phy_read(phydev, MII_M1111_PHY_EXT_SR);
-@@ -3292,6 +3334,8 @@ static struct phy_driver marvell_drivers
+@@ -3329,6 +3371,8 @@ static struct phy_driver marvell_drivers
  		.name = "Marvell 88E1112",
  		/* PHY_GBIT_FEATURES */
  		.probe = marvell_probe,
@@ -965,7 +965,7 @@ publishing the in-band capabilities from the BCM84881 PHY driver.
  		.config_init = m88e1112_config_init,
  		.config_aneg = marvell_config_aneg,
  		.config_intr = marvell_config_intr,
-@@ -3312,6 +3356,8 @@ static struct phy_driver marvell_drivers
+@@ -3349,6 +3393,8 @@ static struct phy_driver marvell_drivers
  		.name = "Marvell 88E1111",
  		/* PHY_GBIT_FEATURES */
  		.probe = marvell_probe,
@@ -974,7 +974,7 @@ publishing the in-band capabilities from the BCM84881 PHY driver.
  		.config_init = m88e1111gbe_config_init,
  		.config_aneg = m88e1111_config_aneg,
  		.read_status = marvell_read_status,
-@@ -3333,6 +3379,8 @@ static struct phy_driver marvell_drivers
+@@ -3370,6 +3416,8 @@ static struct phy_driver marvell_drivers
  		.name = "Marvell 88E1111 (Finisar)",
  		/* PHY_GBIT_FEATURES */
  		.probe = marvell_probe,

@@ -604,6 +604,18 @@ define Device/hnet_c108
 endef
 TARGET_DEVICES += hnet_c108
 
+define Device/hongdian_h8922-v30
+  SOC := mt7620a
+  IMAGE_SIZE := 15808k
+  DEVICE_VENDOR := Hongdian
+  DEVICE_MODEL := H8922
+  DEVICE_VARIANT := v30
+  DEVICE_PACKAGES := kmod-usb2 kmod-usb-ohci kmod-usb-net-qmi-wwan kmod-usb-serial-option uqmi uboot-envtools
+  IMAGES += rootfs.bin
+  IMAGE/rootfs.bin := append-rootfs | check-size 10560k
+endef
+TARGET_DEVICES += hongdian_h8922-v30
+
 define Device/humax_e2
   SOC := mt7620a
   IMAGE_SIZE := 7744k
@@ -1117,10 +1129,12 @@ define Device/rostelecom_rt-fl-1
   $(Device/sercomm_cpj)
   DEVICE_MODEL := RT-FL-1
   DEVICE_ALT0_MODEL := RT-FL-1
+ifeq ($(IB),)
   ARTIFACT/initramfs-factory.img := \
 	append-image-stage initramfs-kernel.bin | check-size | \
 	sercomm-factory-cpj | gzip | sercomm-payload | \
 	sercomm-pid-setbit 0x11 | sercomm-crypto
+endif
 endef
 TARGET_DEVICES += rostelecom_rt-fl-1
 
@@ -1128,9 +1142,11 @@ define Device/rostelecom_s1010
   $(Device/sercomm_cpj)
   DEVICE_MODEL := S1010
   DEVICE_ALT0_MODEL := S1010.RT
+ifeq ($(IB),)
   ARTIFACT/initramfs-factory.img := \
 	append-image-stage initramfs-kernel.bin | check-size | \
 	sercomm-factory-cpj | gzip | sercomm-payload | sercomm-crypto
+endif
 endef
 TARGET_DEVICES += rostelecom_s1010
 

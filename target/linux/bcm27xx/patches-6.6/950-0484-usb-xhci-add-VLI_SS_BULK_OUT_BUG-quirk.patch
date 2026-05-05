@@ -34,7 +34,7 @@ Signed-off-by: Jonathan Bell <jonathan@raspberrypi.com>
 
 --- a/drivers/usb/host/xhci-mem.c
 +++ b/drivers/usb/host/xhci-mem.c
-@@ -1400,6 +1400,7 @@ int xhci_endpoint_init(struct xhci_hcd *
+@@ -1401,6 +1401,7 @@ int xhci_endpoint_init(struct xhci_hcd *
  	unsigned int ep_index;
  	struct xhci_ep_ctx *ep_ctx;
  	struct xhci_ring *ep_ring;
@@ -42,7 +42,7 @@ Signed-off-by: Jonathan Bell <jonathan@raspberrypi.com>
  	unsigned int max_packet;
  	enum xhci_ring_type ring_type;
  	u32 max_esit_payload;
-@@ -1409,6 +1410,8 @@ int xhci_endpoint_init(struct xhci_hcd *
+@@ -1410,6 +1411,8 @@ int xhci_endpoint_init(struct xhci_hcd *
  	unsigned int mult;
  	unsigned int avg_trb_len;
  	unsigned int err_count = 0;
@@ -51,7 +51,7 @@ Signed-off-by: Jonathan Bell <jonathan@raspberrypi.com>
  
  	ep_index = xhci_get_endpoint_index(&ep->desc);
  	ep_ctx = xhci_get_ep_ctx(xhci, virt_dev->in_ctx, ep_index);
-@@ -1440,9 +1443,35 @@ int xhci_endpoint_init(struct xhci_hcd *
+@@ -1445,9 +1448,35 @@ int xhci_endpoint_init(struct xhci_hcd *
  
  	mult = xhci_get_endpoint_mult(udev, ep);
  	max_packet = usb_endpoint_maxp(&ep->desc);
@@ -90,17 +90,17 @@ Signed-off-by: Jonathan Bell <jonathan@raspberrypi.com>
  	/* Allow 3 retries for everything but isoc, set CErr = 3 */
 --- a/drivers/usb/host/xhci-pci.c
 +++ b/drivers/usb/host/xhci-pci.c
-@@ -485,6 +485,7 @@ static void xhci_pci_quirks(struct devic
+@@ -512,6 +512,7 @@ static void xhci_pci_quirks(struct devic
+ 		xhci->quirks |= XHCI_TRB_OVERFETCH;
  		xhci->quirks |= XHCI_EP_CTX_BROKEN_DCS;
  		xhci->quirks |= XHCI_AVOID_DQ_ON_LINK;
- 		xhci->quirks |= XHCI_ZHAOXIN_TRB_FETCH;
 +		xhci->quirks |= XHCI_VLI_SS_BULK_OUT_BUG;
  	}
  
  	if (pdev->vendor == PCI_VENDOR_ID_ASMEDIA &&
 --- a/drivers/usb/host/xhci.h
 +++ b/drivers/usb/host/xhci.h
-@@ -1666,6 +1666,7 @@ struct xhci_hcd {
+@@ -1663,6 +1663,7 @@ struct xhci_hcd {
  
  /* Downstream VLI fixes */
  #define XHCI_AVOID_DQ_ON_LINK	BIT_ULL(56)
